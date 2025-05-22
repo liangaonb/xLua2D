@@ -12,13 +12,6 @@ public class Player : BaseCharacter
     public float offsetX = 1f;
     public float offsetY = 1f;
     public LayerMask enemyLayer;
-    
-    private SpriteRenderer _spriteRenderer;
-
-    private void Awake()
-    {
-        _spriteRenderer =  GetComponent<SpriteRenderer>();
-    }
 
     public void NormalAttack()
     {

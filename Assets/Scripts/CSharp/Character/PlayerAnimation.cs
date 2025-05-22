@@ -34,7 +34,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger("hurt");
     }
 
-    public void PlayAttack()
+    public void PlayAttackAnim()
     {
         _animator.SetTrigger("attack");
     }

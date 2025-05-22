@@ -11,21 +11,18 @@ public class BaseCharacter : MonoBehaviour
     public float currentHealth;
     public float attackDamage;
     public float defense;
+    public float moveSpeed;
     public UnityEvent onTakeDamage;
     public UnityEvent onDie;
-
     protected Rigidbody2D rb;
     protected Animator animator;
+    public bool isAttack;
+    public bool isEngaged = false; // 是否参战
 
-    private void Awake()
+    protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-    }
-
-    public virtual void Attack()
-    {
-        
     }
 
     public virtual void TakeDamage(float damage)
@@ -44,4 +41,8 @@ public class BaseCharacter : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public virtual void PlayAttackAnim()
+    {
+        
+    }
 }

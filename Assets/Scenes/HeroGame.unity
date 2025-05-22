@@ -593,6 +593,7 @@ MonoBehaviour:
   currentHealth: 100
   attackDamage: 10
   defense: 0
+  moveSpeed: 0
   onTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -623,6 +624,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isAttack: 0
+  isEngaged: 0
   attackSize: {x: 1.3, y: 2}
   attackPos: {x: -8.38, y: 1}
   offsetX: 1
@@ -2821,13 +2824,15 @@ MonoBehaviour:
   currentHealth: 20
   attackDamage: 0
   defense: 0
+  moveSpeed: 200
   onTakeDamage:
     m_PersistentCalls:
       m_Calls: []
   onDie:
     m_PersistentCalls:
       m_Calls: []
-  moveSpeed: 60
+  isAttack: 0
+  isEngaged: 0
 --- !u!95 &1777086046
 Animator:
   serializedVersion: 5

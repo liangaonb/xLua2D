@@ -14,18 +14,20 @@ public class CheckCondition : MonoBehaviour
 
     private void FixedUpdate()
     {
-        checkPos.x =  transform.position.x + offsetX;
-        checkPos.y =  transform.position.y + offsetY;
+        checkPos.x = transform.position.x + offsetX;
+        checkPos.y = transform.position.y + offsetY;
         Check();
     }
 
-    public void Check()
+    public bool Check()
     {
         Collider2D hit = Physics2D.OverlapBox(checkPos, checkSize, 0f, targetLayer);
         if (hit)
         {
-            Debug.Log("检测到目标对象: " + hit.gameObject.name);
+            Debug.Log($"{gameObject.name} 检测到目标对象: " + hit.gameObject.name);
+            return true;
         }
+        return false;
     }
 
     private void OnDrawGizmos()
