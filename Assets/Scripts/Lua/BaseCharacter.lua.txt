@@ -1,2 +1,3 @@
 local BaseCharacter = {}
 BaseCharacter.__index = BaseCharacter
+

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,32 @@ public class BaseCharacter : MonoBehaviour
     [Header("基础属性")]
     public float maxHealth;
     public float currentHealth;
-    public float attack;
+    public float attackDamage;
     public float defense;
     public UnityEvent onTakeDamage;
     public UnityEvent onDie;
 
-    public void Attack(BaseCharacter target)
-    {
-        float damage = attack - target.defense;
-        if (damage < 0) damage = 0;
+    protected Rigidbody2D rb;
+    protected Animator animator;
 
-        target.TakeDamage(damage);
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    public virtual void Attack()
+    {
+        
     }
 
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public virtual void Die()
