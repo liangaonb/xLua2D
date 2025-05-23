@@ -6,12 +6,19 @@ using UnityEngine.Events;
 
 public class Player : BaseCharacter
 {
-    [Header("攻击范围参数")]
-    public Vector2 attackSize;
-    public Vector2 attackPos;
-    public float offsetX = 1f;
-    public float offsetY = 1f;
-    public LayerMask enemyLayer;
+    [Header("基础属性")]
+    public float maxEnergy;
+    public float currentEnergy;
+    public float energyGainPerAttack;
+    
+    public UnityEvent<Player> OnHealthChanged;
+    public UnityEvent<Player> OnEnergyChanged;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        OnHealthChanged.Invoke(this);
+    }
 
     public void NormalAttack()
     {
@@ -28,11 +35,16 @@ public class Player : BaseCharacter
         attackPos.x += offsetX;
         attackPos.y += offsetY;
         
-        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(attackPos, attackSize, 0f, enemyLayer);
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(attackPos, attackSize, 0f, targetLayer);
+        if (hitColliders != null)
+        {
+            currentEnergy += energyGainPerAttack *  hitColliders.Length;
+        }
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.GetComponent<BaseCharacter>().TakeDamage(attackDamage);
         }
+        OnEnergyChanged.Invoke(this);
     }
 
     // private void OnDrawGizmos()
@@ -44,10 +56,19 @@ public class Player : BaseCharacter
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        onTakeDamage?.Invoke();
+        Debug.Log($"{gameObject.name} takes {damage} damage ");
+        
         if (currentHealth <= 0)
         {
-            onDie?.Invoke();
+            Die();
         }
+        
+        OnHealthChanged?.Invoke(this);
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Debug.Log($"{gameObject.name} died.");
     }
 }

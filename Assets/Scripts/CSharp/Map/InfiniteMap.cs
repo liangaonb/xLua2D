@@ -3,9 +3,9 @@ using UnityEngine.Tilemaps;
 
 public class InfiniteTilemap : MonoBehaviour
 {
-    public Tilemap[] tilemaps; // 按顺序存放 3 个 Tilemap
-    public Transform player;   // 玩家 Transform
-    public float tilemapWidth = 21f; // 每个 Tilemap 的宽度
+    public Tilemap[] tilemaps; // 按序存放 3 个 Tilemap
+    public Transform player;
+    public float tilemapWidth = 21f; // 每个Tilemap的宽度
 
     private void Update()
     {

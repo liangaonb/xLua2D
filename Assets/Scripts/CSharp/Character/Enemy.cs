@@ -5,49 +5,95 @@ using UnityEngine;
 
 public class Enemy : BaseCharacter
 {
-    private int _faceDir;
-    private CheckCondition checkCondition;
+    public int faceDir;
+    private BaseState currentState;
+    private BaseState moveState = new EnemyMoveState();
+    private BaseState combatState = new EnemyCombatState();
 
-    private void Awake()
+    private void OnEnable()
     {
-        base.Awake();
-        checkCondition = GetComponent<CheckCondition>();
+        currentState = moveState;
+        currentState.EnterState(this);
     }
 
     private void Update()
     {
-        _faceDir = -(int)transform.localScale.x;
-        animator.SetBool("isEngaged", isEngaged);
-        if (checkCondition.Check())
-        {
-            if (!isEngaged)
-            {
-                isEngaged = true;
-                PlayAttackAnim();
-            }
-        }
-        else
-        {
-            isEngaged = false;
-            Move();
-        }
+        currentState.LogicUpdate();
+        animator.SetBool("isInCombat", isInCombat);
+    }
+
+    private void FixedUpdate()
+    {
+        currentState.PhysicsUpdate();
+    }
+
+    private void OnDisable()
+    {
+        currentState.ExitState();
     }
 
     public void Move()
     {
-        rb.velocity = new Vector2(moveSpeed * _faceDir *  Time.deltaTime, rb.velocity.y);
+        faceDir = -(int)transform.localScale.x;
+        rb.velocity = new Vector2(moveSpeed * faceDir *  Time.deltaTime, rb.velocity.y);
     }
 
-    public override void PlayAttackAnim()
-    {
-        animator.SetTrigger("attack");
-        animator.SetBool("isAttack", true);
-        isAttack = true;
-    }
+    // public override void PlayAttackAnim()
+    // {
+    //     animator.SetBool("isInCombat", true);
+    //     isAttack = true;
+    // }
 
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        Debug.Log($"{this.name} takes damage {damage}");
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        Debug.Log($"{this.gameObject.name} takes {damage} damage ");
+    }
+
+    public void ChangeState(EnemyStates state)
+    {
+        var newState = state switch
+        {
+            EnemyStates.Move => moveState,
+            EnemyStates.Combat => combatState,
+            _ => null
+        };
+        if (newState != null)
+        {
+            currentState.ExitState();
+            currentState = newState;
+            currentState.EnterState(this);
+        }
+    }
+
+    public void Attack()
+    {
+        attackPos = transform.position;
+        
+        attackPos.x += offsetX;
+        attackPos.y += offsetY;
+        
+        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(attackPos, attackSize, 0f, targetLayer);
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.GetComponent<BaseCharacter>().TakeDamage(attackDamage);
+        }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Debug.Log($"{gameObject.name} died.");
+        Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(attackPos, attackSize);
     }
 }

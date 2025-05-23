@@ -26,7 +26,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetFloat("velocityX", math.abs(_rb.velocity.x));
         _animator.SetBool("isDead", _playerController.isDead);
-        _animator.SetBool("isAttack", _playerController.isAttack);
     }
 
     public void PlayHurt()

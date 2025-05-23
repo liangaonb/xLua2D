@@ -16,10 +16,9 @@ public class CheckCondition : MonoBehaviour
     {
         checkPos.x = transform.position.x + offsetX;
         checkPos.y = transform.position.y + offsetY;
-        Check();
     }
 
-    public bool Check()
+    public bool CheckTarget()
     {
         Collider2D hit = Physics2D.OverlapBox(checkPos, checkSize, 0f, targetLayer);
         if (hit)

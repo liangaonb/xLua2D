@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 _inputDirection;
     private int _faceDir;
     public bool isDead;
-    public bool isAttack;
 
     private void Awake()
     {
@@ -71,7 +70,6 @@ public class PlayerController : MonoBehaviour
     private void PlayerAttack(InputAction.CallbackContext obj)
     {
         _playerAnimation.PlayAttackAnim();
-        isAttack = true;
     }
 
     public void PlayerDead()
