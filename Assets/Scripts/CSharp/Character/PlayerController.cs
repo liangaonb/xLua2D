@@ -21,7 +21,9 @@ public class PlayerController : MonoBehaviour
         _playerAnimation = GetComponent<PlayerAnimation>();
 
         _inputControl.Gameplay.Attack.started += PlayerAttack;
+        _inputControl.Gameplay.Skill1.started += PlayerSkill1;
     }
+
 
     private void Start()
     {
@@ -67,13 +69,21 @@ public class PlayerController : MonoBehaviour
         transform.localScale = new Vector3(_faceDir, 1, 1);
     }
 
-    private void PlayerAttack(InputAction.CallbackContext obj)
+    public void PlayerDead()
+    {
+        isDead = true;
+        _playerAnimation.PlayDeathAnim();
+        _inputControl.Gameplay.Disable();
+    }
+
+    private void PlayerAttack(InputAction.CallbackContext context)
     {
         _playerAnimation.PlayAttackAnim();
     }
 
-    public void PlayerDead()
+    
+    private void PlayerSkill1(InputAction.CallbackContext context)
     {
-        // TODO: 添加死亡处理逻辑
+        PlayerManager.instance.player.UseFireballSkill();
     }
 }

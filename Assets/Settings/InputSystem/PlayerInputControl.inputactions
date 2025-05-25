@@ -15,18 +15,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "0568e8d3-5203-4565-ba8c-8c9678e02e96",
+                    "id": "892a7250-d89f-48df-bac9-05f3a51a4f63",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "Skill1",
                     "type": "Button",
-                    "id": "892a7250-d89f-48df-bac9-05f3a51a4f63",
+                    "id": "77751e75-4abb-4c00-beec-25f1bec388b4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -168,23 +168,23 @@
                 },
                 {
                     "name": "",
-                    "id": "63a75e0e-2c43-4f12-b3b7-0aac5f49a34a",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d14235a6-391f-46ae-b0ba-f98c9c4704ae",
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b789d51-bf5b-4acf-9d1a-68d559ccc75b",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

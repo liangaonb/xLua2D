@@ -19,16 +19,15 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        SetParams();
+        SetAnimParams();
     }
 
-    void SetParams()
+    void SetAnimParams()
     {
         _animator.SetFloat("velocityX", math.abs(_rb.velocity.x));
-        _animator.SetBool("isDead", _playerController.isDead);
     }
 
-    public void PlayHurt()
+    public void PlayHurtAnim()
     {
         _animator.SetTrigger("hurt");
     }
@@ -36,5 +35,10 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayAttackAnim()
     {
         _animator.SetTrigger("attack");
+    }
+
+    public void PlayDeathAnim()
+    {
+        _animator.SetBool("isDead", true);
     }
 }

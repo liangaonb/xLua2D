@@ -22,7 +22,6 @@ public class BaseCharacter : MonoBehaviour
     public LayerMask targetLayer;
     
     [Header("对象状态")]
-    public bool isAttack;
     public bool isInCombat = false; // 是否进战
     
     public UnityEvent onTakenDamage;

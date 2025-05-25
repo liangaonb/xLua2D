@@ -91,7 +91,7 @@ public class Enemy : BaseCharacter
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(attackPos, attackSize);
