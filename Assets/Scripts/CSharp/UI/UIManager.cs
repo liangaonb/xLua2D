@@ -11,10 +11,26 @@ public class UIManager : MonoBehaviour
     public PlayerEventSO healthEvent;
     public PlayerEventSO energyEvent;
 
+    [Header("技能UI")]
+    public SkillIconUI[] skillIcons;
+
     private void OnEnable()
     {
         healthEvent.OnEventRaised += OnHealthEvent;
         energyEvent.OnEventRaised += OnEnergyEvent;
+    }
+
+    private void Start()
+    {
+        Player player = PlayerManager.instance.player;
+        for (int i = 0; i < skillIcons.Length; i++)
+        {
+            BaseSkill skill = SkillManager.instance.GetSkill(player.CharacterID, i);
+            if (skill != null)
+            {
+                skillIcons[i].SetSkill(skill);
+            }
+        }
     }
 
     private void OnDisable()

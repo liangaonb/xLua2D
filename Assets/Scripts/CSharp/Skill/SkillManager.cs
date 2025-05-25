@@ -6,7 +6,7 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;
 
-    // 存储每个实体的技能列表
+    // 存储每个角色的技能列表
     private Dictionary<int, List<BaseSkill>> characterSkills = new Dictionary<int, List<BaseSkill>>();
 
     private void Awake()

@@ -5,7 +5,7 @@ public class FireballSkill : BaseSkill
 {
     [Header("Fireball Settings")]
     public GameObject fireballPrefab; // 火球预制体
-    public Vector2 spawnOffset = new Vector2(1f, 0f); // 生成位置的偏移
+    public Vector2 spawnOffset = new Vector2(1f, 0f); // 生成位置偏移
 
     public override void UseSkill()
     {

@@ -1,0 +1,39 @@
+
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SkillIconUI : MonoBehaviour
+{
+    public Image skillIcon;
+    public Image cooldownMask;
+    public Text cooldownText;
+
+    private BaseSkill _skill;
+
+    private void Update()
+    {
+        if (_skill != null)
+        {
+            float cooldownPercent = _skill.GetCooldownPercent();
+            cooldownMask.fillAmount = cooldownPercent;
+
+            if (cooldownText != null)
+            {
+                if (cooldownPercent > 0)
+                {
+                    cooldownText.text = Mathf.Ceil(_skill.cooldownTime * (1 - cooldownPercent)).ToString();
+                    cooldownText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    cooldownText.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void SetSkill(BaseSkill skill)
+    {
+        _skill = skill;
+    }
+}
