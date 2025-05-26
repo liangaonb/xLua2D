@@ -164,4 +164,4 @@ MonoBehaviour:
   damage: 0
   speed: 10
   maxDistance: 20
-  hitCount: 1
+  maxHitCount: 99

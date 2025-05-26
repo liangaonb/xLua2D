@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
-    public static SkillManager instance;
+    public static SkillManager Instance;
 
     // 存储每个角色的技能列表
-    private Dictionary<int, List<BaseSkill>> characterSkills = new Dictionary<int, List<BaseSkill>>();
+    private Dictionary<int, List<BaseSkill>> _characterSkills = new Dictionary<int, List<BaseSkill>>();
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -23,33 +23,33 @@ public class SkillManager : MonoBehaviour
 
     public void AddSkill(int characterID, BaseSkill skill)
     {
-        if (!characterSkills.ContainsKey(characterID))
+        if (!_characterSkills.ContainsKey(characterID))
         {
-            characterSkills[characterID] = new List<BaseSkill>();
+            _characterSkills[characterID] = new List<BaseSkill>();
         }
 
-        if (!characterSkills[characterID].Contains(skill))
+        if (!_characterSkills[characterID].Contains(skill))
         {
-            characterSkills[characterID].Add(skill);
+            _characterSkills[characterID].Add(skill);
             skill.transform.SetParent(null); // 防止技能随实体被销毁
             DontDestroyOnLoad(skill.gameObject);
         }
     }
     public void RemoveSkill(int characterID, BaseSkill skill)
     {
-        if (characterSkills.ContainsKey(characterID) && characterSkills[characterID].Contains(skill))
+        if (_characterSkills.ContainsKey(characterID) && _characterSkills[characterID].Contains(skill))
         {
-            characterSkills[characterID].Remove(skill);
+            _characterSkills[characterID].Remove(skill);
             Destroy(skill.gameObject);
         }
     }
 
     public bool UseSkill(int characterID, int index, Vector3 userPosition, Vector3 userScale)
     {
-        if (!characterSkills.ContainsKey(characterID))
+        if (!_characterSkills.ContainsKey(characterID))
             return false;
 
-        var skills = characterSkills[characterID];
+        var skills = _characterSkills[characterID];
         if (index >= 0 && index < skills.Count)
         {
             if (skills[index].CanUseSkill())
@@ -66,9 +66,9 @@ public class SkillManager : MonoBehaviour
 
     public BaseSkill GetSkill(int characterID, int index)
     {
-        if (characterSkills.ContainsKey(characterID) && index >= 0 && index < characterSkills[characterID].Count)
+        if (_characterSkills.ContainsKey(characterID) && index >= 0 && index < _characterSkills[characterID].Count)
         {
-            return characterSkills[characterID][index];
+            return _characterSkills[characterID][index];
         }
         return null;
     }
@@ -76,23 +76,23 @@ public class SkillManager : MonoBehaviour
     // 清理指定角色的所有技能
     public void ClearEntitySkills(int characterID)
     {
-        if (characterSkills.ContainsKey(characterID))
+        if (_characterSkills.ContainsKey(characterID))
         {
-            foreach (var skill in characterSkills[characterID])
+            foreach (var skill in _characterSkills[characterID])
             {
                 if (skill != null)
                 {
                     Destroy(skill.gameObject);
                 }
             }
-            characterSkills.Remove(characterID);
+            _characterSkills.Remove(characterID);
         }
     }
 
+    // 清理所有技能
     private void OnDestroy()
     {
-        // 清理所有技能
-        foreach (var skillList in characterSkills.Values)
+        foreach (var skillList in _characterSkills.Values)
         {
             foreach (var skill in skillList)
             {
@@ -102,7 +102,7 @@ public class SkillManager : MonoBehaviour
                 }
             }
         }
-        characterSkills.Clear();
+        _characterSkills.Clear();
     }
 }
 

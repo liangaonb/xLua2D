@@ -34,8 +34,16 @@ public class Enemy : BaseCharacter
 
     public void Move()
     {
-        faceDir = -(int)transform.localScale.x;
-        rb.velocity = new Vector2(moveSpeed * faceDir *  Time.deltaTime, rb.velocity.y);
+        // 获取玩家位置
+        Vector2 playerPos = PlayerManager.Instance.player.transform.position;
+        Vector2 enemyPos = transform.position;
+    
+        // 计算方向
+        float directionToPlayer = playerPos.x - enemyPos.x;
+        faceDir = (directionToPlayer > 0) ? 1 : -1;
+    
+        // 移动
+        rb.velocity = new Vector2(moveSpeed * faceDir * Time.deltaTime, rb.velocity.y);
     }
 
     // public override void PlayAttackAnim()
@@ -88,7 +96,17 @@ public class Enemy : BaseCharacter
     {
         base.Die();
         Debug.Log($"{gameObject.name} died.");
-        Destroy(gameObject);
+        WaveManager.Instance.OnEnemyDefeated();
+        onDied.Invoke(); //返还到对象池
+    }
+
+    public void ResetEnemy()
+    {
+        currentHealth = maxHealth;
+        isInCombat = false;
+        
+        onTakenDamage.RemoveAllListeners();
+        onDied.RemoveAllListeners();
     }
 
     private void OnDrawGizmosSelected()

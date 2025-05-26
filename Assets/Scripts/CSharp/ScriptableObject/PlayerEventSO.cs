@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class PlayerEventSO : ScriptableObject
 {
     public UnityAction<Player> OnEventRaised;
-
+    
     public void RaiseEvent(Player player)
     {
         OnEventRaised?.Invoke(player);

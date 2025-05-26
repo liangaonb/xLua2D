@@ -1,4 +1,5 @@
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ public class SkillIconUI : MonoBehaviour
 {
     public Image skillIcon;
     public Image cooldownMask;
-    public Text cooldownText;
+    public TextMeshProUGUI cooldownText;
 
     private BaseSkill _skill;
 
@@ -16,18 +17,15 @@ public class SkillIconUI : MonoBehaviour
         {
             float cooldownPercent = _skill.GetCooldownPercent();
             cooldownMask.fillAmount = cooldownPercent;
-
-            if (cooldownText != null)
+            
+            if (cooldownPercent > 0)
             {
-                if (cooldownPercent > 0)
-                {
-                    cooldownText.text = Mathf.Ceil(_skill.cooldownTime * (1 - cooldownPercent)).ToString();
-                    cooldownText.gameObject.SetActive(true);
-                }
-                else
-                {
-                    cooldownText.gameObject.SetActive(false);
-                }
+                cooldownText.text = Mathf.Ceil(_skill.cooldownTime * (1 - cooldownPercent)).ToString();
+                cooldownText.gameObject.SetActive(true);
+            }
+            else
+            {
+                cooldownText.gameObject.SetActive(false);
             }
         }
     }

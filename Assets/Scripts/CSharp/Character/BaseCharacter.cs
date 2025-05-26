@@ -11,7 +11,6 @@ public class BaseCharacter : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
     public float attackDamage;
-    public float defense;
     public float moveSpeed;
     
     [Header("攻击范围参数")]

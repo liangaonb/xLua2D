@@ -35,13 +35,13 @@ public class Player : BaseCharacter, ISkillUser
 
         // 创建火球技能实例并添加到技能管理器
         var fireballSkill = Instantiate(fireballSkillPrefab);
-        SkillManager.instance.AddSkill(CharacterID, fireballSkill);
+        SkillManager.Instance.AddSkill(CharacterID, fireballSkill);
     }
 
     public void NormalAttack()
     {
         attackPos = transform.position;
-        //处理玩家朝向
+        // 处理玩家朝向
         if (transform.localScale.x > 0)
         {
             offsetX = Mathf.Abs(offsetX);
@@ -95,9 +95,9 @@ public class Player : BaseCharacter, ISkillUser
     
     public void UseFireballSkill()
     {
-        if (SkillManager.instance != null)
+        if (SkillManager.Instance != null)
         {
-            SkillManager.instance.UseSkill(CharacterID, 0, Position, Scale);
+            SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
         }
     }
 }

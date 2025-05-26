@@ -84,6 +84,6 @@ public class PlayerController : MonoBehaviour
     
     private void PlayerSkill1(InputAction.CallbackContext context)
     {
-        PlayerManager.instance.player.UseFireballSkill();
+        PlayerManager.Instance.player.UseFireballSkill();
     }
 }

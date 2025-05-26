@@ -22,10 +22,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        Player player = PlayerManager.instance.player;
+        Player player = PlayerManager.Instance.player;
         for (int i = 0; i < skillIcons.Length; i++)
         {
-            BaseSkill skill = SkillManager.instance.GetSkill(player.CharacterID, i);
+            BaseSkill skill = SkillManager.Instance.GetSkill(player.CharacterID, i);
             if (skill != null)
             {
                 skillIcons[i].SetSkill(skill);

@@ -6,23 +6,24 @@ public class Fireball : MonoBehaviour
     public float damage;
     public float speed = 30f;
     public float maxDistance = 900f;
-    private Vector2 startPosition;
-    private int direction = 1; // 1为右，-1为左
-    public int hitCount = 0;
+    public int maxHitCount = 3;
+    private Vector2 _startPosition;
+    private int _direction = 1; // 1为右，-1为左
+    private int _currentHitCount = 0;
 
     public void Init(float damage, int faceDir)
     {
         this.damage = damage;
-        direction = faceDir;
-        startPosition = transform.position;
+        _direction = faceDir;
+        _startPosition = transform.position;
     }
 
     private void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime * Vector2.right);
+        transform.Translate(_direction * speed * Time.deltaTime * Vector2.right);
 
         // 检查是否超出最大距离
-        if (Vector2.Distance(startPosition, transform.position) > maxDistance)
+        if (Vector2.Distance(_startPosition, transform.position) > maxDistance)
         {
             Destroy(gameObject);
         }
@@ -34,8 +35,8 @@ public class Fireball : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<Enemy>().TakeDamage(damage);
-            ++hitCount;
-            if (hitCount >= 3)
+            ++_currentHitCount;
+            if (_currentHitCount >= maxHitCount)
             {
                 Destroy(gameObject);
             }
