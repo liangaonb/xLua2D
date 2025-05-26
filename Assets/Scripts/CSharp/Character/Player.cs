@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Player : BaseCharacter, ISkillUser
 {
 
-    [Header("基础属性")]
+    [Header("能量属性")]
     public float maxEnergy;
     public float currentEnergy;
     public float energyGainPerAttack;
@@ -92,10 +92,22 @@ public class Player : BaseCharacter, ISkillUser
 
         onDied?.Invoke();
     }
-    
+
+    public bool TryUseEnergy(float amount)
+    {
+        if (currentEnergy >= amount)
+        {
+            currentEnergy -= amount;
+            OnEnergyChanged?.Invoke(this);
+            return true;
+        }
+        return false;
+    }
+
     public void UseFireballSkill()
     {
-        if (SkillManager.Instance != null)
+        BaseSkill skill = SkillManager.Instance.GetSkill(CharacterID, 0);
+        if (skill != null && TryUseEnergy(skill.energyCost))
         {
             SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
         }

@@ -46,6 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 2
   damage: 50
-  energyCost: 0
+  energyCost: 30
   fireballPrefab: {fileID: 1380033832135113348, guid: f72a53db0ff00ce4a98c723db2e23eda, type: 3}
   spawnOffset: {x: 0, y: 1.2}

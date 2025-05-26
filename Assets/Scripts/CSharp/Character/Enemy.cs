@@ -14,6 +14,12 @@ public class Enemy : BaseCharacter
     {
         currentState = moveState;
         currentState.EnterState(this);
+
+        // 创建血条
+        if (EnemyHealthBarManager.Instance != null)
+        {
+            EnemyHealthBarManager.Instance.CreateHealthBar(this);
+        }
     }
 
     private void Update()
@@ -60,6 +66,8 @@ public class Enemy : BaseCharacter
             Die();
         }
         Debug.Log($"{this.gameObject.name} takes {damage} damage ");
+
+        onTakenDamage.Invoke();
     }
 
     public void ChangeState(EnemyStates state)
