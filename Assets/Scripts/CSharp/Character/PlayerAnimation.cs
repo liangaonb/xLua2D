@@ -30,6 +30,12 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayAttackAnim()
     {
         _animator.SetTrigger("attack");
+        _rb.velocity = new Vector2(0, _rb.velocity.y); // 停止水平移动
+    }
+
+    public void AttackAnimationEnd()
+    {
+        _playerController.isAttacking = false;
     }
 
     public void PlayDeathAnim()

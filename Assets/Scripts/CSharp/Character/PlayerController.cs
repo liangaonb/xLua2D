@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _inputDirection;
     private int _faceDir;
     public bool isDead;
+    public bool isAttacking;
 
     private void Awake()
     {
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
+        if (isAttacking) return;
+        
         _rb.velocity = new Vector2(_inputDirection.x * moveSpeed * Time.deltaTime, _rb.velocity.y);
         _faceDir = (int)transform.localScale.x;
         if (_inputDirection.x > 0)
@@ -79,6 +82,8 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerAttack(InputAction.CallbackContext context)
     {
+        if (isAttacking) return;
+        isAttacking = true;
         _playerAnimation.PlayAttackAnim();
     }
 

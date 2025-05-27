@@ -9,12 +9,21 @@ public class WaveInfoUI : MonoBehaviour
     public TextMeshProUGUI enemyCountText;
     public TextMeshProUGUI timerText;
     
-    [Header("监听时间")]
+    [Header("监听事件")]
     public WaveEventSO waveEvent;
 
     private void OnEnable()
     {
         waveEvent.onWaveInfoChanged += UpdateWaveInfo;
+    }
+
+    private void Start()
+    {
+        // 初始化显示第一波信息
+        if (WaveManager.Instance != null)
+        {
+            UpdateWaveInfo(1, WaveManager.Instance.waveConfigs[0].enemyCount);
+        }
     }
 
     private void Update()

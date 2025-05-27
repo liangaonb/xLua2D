@@ -13,7 +13,7 @@ public class WaveManager : MonoBehaviour
     public float timeBetweenWaves = 3f;
     public bool isWaveActive = false;
     public WaveEventSO waveEvent;
-    
+
     private int _currentWaveIndex = 0;
     private int _remainingEnemies = 0;
     private float _currentWaveRemainingTime;
@@ -44,10 +44,10 @@ public class WaveManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(timeBetweenWaves);
             }
-            
-            WaveConfig currentWave =  waveConfigs[_currentWaveIndex];
+
+            WaveConfig currentWave = waveConfigs[_currentWaveIndex];
             isWaveActive = true;
-            
+
             _remainingEnemies = currentWave.enemyCount;
             _currentWaveRemainingTime = currentWave.waveDuration;
             waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies);
@@ -56,12 +56,12 @@ public class WaveManager : MonoBehaviour
             StartCoroutine(SpawnEnemyRoutine(currentWave));
 
             //等待敌人全部被消灭
-            while(_currentWaveRemainingTime > 0 && _remainingEnemies > 0)
+            while (_currentWaveRemainingTime > 0 && _remainingEnemies > 0)
             {
                 _currentWaveRemainingTime -= Time.deltaTime;
                 yield return null;
             }
-            
+
             isWaveActive = false;
             _currentWaveIndex++;
 
@@ -97,5 +97,10 @@ public class WaveManager : MonoBehaviour
     public float GetWaveRemainingTime()
     {
         return _currentWaveRemainingTime;
+    }
+    
+    public int GetRemainingEnemies()
+    {
+        return _remainingEnemies;
     }
 }
