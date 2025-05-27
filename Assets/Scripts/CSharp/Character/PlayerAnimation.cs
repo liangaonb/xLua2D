@@ -19,14 +19,9 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        SetAnimParams();
-    }
-
-    void SetAnimParams()
-    {
         _animator.SetFloat("velocityX", math.abs(_rb.velocity.x));
     }
-
+    
     public void PlayHurtAnim()
     {
         _animator.SetTrigger("hurt");

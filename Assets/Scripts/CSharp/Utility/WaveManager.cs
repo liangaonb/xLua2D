@@ -30,7 +30,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void StartWave()
     {
         StartCoroutine(StartWaveRoutine());
     }
@@ -39,7 +39,12 @@ public class WaveManager : MonoBehaviour
     {
         while (_currentWaveIndex < waveConfigs.Count)
         {
-            yield return new WaitForSeconds(timeBetweenWaves);
+            // 第一波直接开始
+            if (_currentWaveRemainingTime > 0)
+            {
+                yield return new WaitForSeconds(timeBetweenWaves);
+            }
+            
             WaveConfig currentWave =  waveConfigs[_currentWaveIndex];
             isWaveActive = true;
             

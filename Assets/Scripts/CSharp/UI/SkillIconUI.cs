@@ -20,7 +20,7 @@ public class SkillIconUI : MonoBehaviour
             
             if (cooldownPercent > 0)
             {
-                cooldownText.text = Mathf.Ceil(_skill.cooldownTime * (1 - cooldownPercent)).ToString();
+                cooldownText.text = Mathf.Ceil(_skill.config.cooldownTime * (1 - cooldownPercent)).ToString();
                 cooldownText.gameObject.SetActive(true);
             }
             else

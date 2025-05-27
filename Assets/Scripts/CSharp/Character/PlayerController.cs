@@ -20,8 +20,9 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
 
-        _inputControl.Gameplay.Attack.started += PlayerAttack;
+        _inputControl.Gameplay.Skill0.started += PlayerAttack;
         _inputControl.Gameplay.Skill1.started += PlayerSkill1;
+        _inputControl.Gameplay.Skill2.started += PlayerSkill2;
     }
 
 
@@ -85,5 +86,10 @@ public class PlayerController : MonoBehaviour
     private void PlayerSkill1(InputAction.CallbackContext context)
     {
         PlayerManager.Instance.player.UseFireballSkill();
+    }
+
+    private void PlayerSkill2(InputAction.CallbackContext context)
+    {
+        PlayerManager.Instance.player.UseRecoverySkill();
     }
 }

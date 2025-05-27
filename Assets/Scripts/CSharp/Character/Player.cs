@@ -6,7 +6,11 @@ using UnityEngine.Events;
 
 public class Player : BaseCharacter, ISkillUser
 {
-
+    [Header("技能预制体")] 
+    public NormalAttackSkill normalAttackSkillPrefab;
+    public FireballSkill fireballSkillPrefab;
+    public RecoverySkill recoverySkillPrefab;
+    
     [Header("能量属性")]
     public float maxEnergy;
     public float currentEnergy;
@@ -20,8 +24,6 @@ public class Player : BaseCharacter, ISkillUser
     [HideInInspector] public Vector3 Position => transform.position;
     [HideInInspector] public Vector3 Scale => transform.localScale;
 
-    [SerializeField] private FireballSkill fireballSkillPrefab;
-
     protected override void Awake()
     {
         base.Awake();
@@ -32,44 +34,24 @@ public class Player : BaseCharacter, ISkillUser
     {
         currentHealth = maxHealth;
         OnHealthChanged.Invoke(this);
-
-        // 创建火球技能实例并添加到技能管理器
-        var fireballSkill = Instantiate(fireballSkillPrefab);
-        SkillManager.Instance.AddSkill(CharacterID, fireballSkill);
+        
+        InitializeSkills();
     }
 
-    public void NormalAttack()
+    public void InitializeSkills()
     {
-        attackPos = transform.position;
-        // 处理玩家朝向
-        if (transform.localScale.x > 0)
-        {
-            offsetX = Mathf.Abs(offsetX);
-        }
-        if (transform.localScale.x < 0)
-        {
-            offsetX = -Mathf.Abs(offsetX);
-        }
-        attackPos.x += offsetX;
-        attackPos.y += offsetY;
-
-        Collider2D[] hitColliders = Physics2D.OverlapBoxAll(attackPos, attackSize, 0f, targetLayer);
-        if (hitColliders != null)
-        {
-            currentEnergy += energyGainPerAttack * hitColliders.Length;
-        }
-        foreach (var hitCollider in hitColliders)
-        {
-            hitCollider.GetComponent<BaseCharacter>().TakeDamage(attackDamage);
-        }
-        OnEnergyChanged.Invoke(this);
+        var normalAttack = Instantiate(normalAttackSkillPrefab);
+        normalAttack.Initialize(this);
+        SkillManager.Instance.AddSkill(CharacterID, normalAttack);
+        
+        var fireballSkill = Instantiate(fireballSkillPrefab);
+        fireballSkill.Initialize(this);
+        SkillManager.Instance.AddSkill(CharacterID, fireballSkill);
+        
+        var recoverySkill = Instantiate(recoverySkillPrefab);
+        recoverySkill.Initialize(this);
+        SkillManager.Instance.AddSkill(CharacterID, recoverySkill);
     }
-
-    // private void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.green;
-    //     Gizmos.DrawWireCube(attackPos, attackSize);
-    // }
 
     public override void TakeDamage(float damage)
     {
@@ -93,6 +75,12 @@ public class Player : BaseCharacter, ISkillUser
         onDied?.Invoke();
     }
 
+    public void GainEnergy(float amount)
+    {
+        currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, maxEnergy);
+        OnEnergyChanged?.Invoke(this);
+    }
+
     public bool TryUseEnergy(float amount)
     {
         if (currentEnergy >= amount)
@@ -103,13 +91,25 @@ public class Player : BaseCharacter, ISkillUser
         }
         return false;
     }
+    
+    public void NormalAttack()
+    {
+        SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
+    }
 
     public void UseFireballSkill()
     {
-        BaseSkill skill = SkillManager.Instance.GetSkill(CharacterID, 0);
-        if (skill != null && TryUseEnergy(skill.energyCost))
-        {
-            SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
-        }
+        SkillManager.Instance.UseSkill(CharacterID, 1, Position, Scale);
     }
+
+    public void UseRecoverySkill()
+    {
+        SkillManager.Instance.UseSkill(CharacterID, 2, Position, Scale);
+    }
+    
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireCube(attackPos, attackSize);
+    // }
 }

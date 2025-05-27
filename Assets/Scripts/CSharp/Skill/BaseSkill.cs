@@ -3,25 +3,28 @@ using UnityEngine;
 
 public abstract class BaseSkill : MonoBehaviour
 {
-    [Header("技能基本参数")]
-    public float cooldownTime = 1f;
-    public float damage = 20f;
-    public float energyCost = 20f;
+    public SkillConfigSO config;
 
     protected bool isInCooldown = false;
     protected float cooldownTimer = 0f;
+    protected ISkillUser skillUser;
 
     protected virtual void Update()
     {
         if (isInCooldown)
         {
             cooldownTimer += Time.deltaTime;
-            if (cooldownTimer >= cooldownTime)
+            if (cooldownTimer >= config.cooldownTime)
             {
                 isInCooldown = false;
                 cooldownTimer = 0f;
             }
         }
+    }
+
+    public void Initialize(ISkillUser user)
+    {
+        skillUser = user;
     }
 
     public virtual bool CanUseSkill()
@@ -36,7 +39,7 @@ public abstract class BaseSkill : MonoBehaviour
 
     public float GetCooldownPercent()
     {
-        return isInCooldown ? cooldownTimer / cooldownTime : 0f;
+        return isInCooldown ? cooldownTimer / config.cooldownTime : 0f;
     }
 }
 

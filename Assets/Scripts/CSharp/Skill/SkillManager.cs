@@ -31,10 +31,9 @@ public class SkillManager : MonoBehaviour
         if (!_characterSkills[characterID].Contains(skill))
         {
             _characterSkills[characterID].Add(skill);
-            skill.transform.SetParent(null); // 防止技能随实体被销毁
-            DontDestroyOnLoad(skill.gameObject);
         }
     }
+    
     public void RemoveSkill(int characterID, BaseSkill skill)
     {
         if (_characterSkills.ContainsKey(characterID) && _characterSkills[characterID].Contains(skill))

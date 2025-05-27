@@ -1,17 +1,33 @@
 using UnityEngine;
 
-
 public class FireballSkill : BaseSkill
 {
     [Header("Fireball Settings")]
-    public GameObject fireballPrefab; // 火球预制体
+    public GameObject fireballPrefab; // 要生成的火球预制体
     public Vector2 spawnOffset = new Vector2(1f, 0f); // 生成位置偏移
 
+    public override bool CanUseSkill()
+    {
+        if (skillUser is Player player)
+        {
+            // 检查能量是否够
+            return base.CanUseSkill() && player.currentEnergy >= config.energyCost;
+        }
+        return base.CanUseSkill();
+    }
+    
     public override void UseSkill()
     {
         if (CanUseSkill())
         {
             base.UseSkill();
+            
+            if (skillUser is Player player)
+            {
+                // 消耗能量
+                player.currentEnergy -= config.energyCost;
+                player.OnEnergyChanged?.Invoke(player);
+            }
 
             // 获取角色朝向
             int faceDir = transform.localScale.x > 0 ? 1 : -1;
@@ -22,7 +38,7 @@ public class FireballSkill : BaseSkill
             Fireball fireball = fireballObj.GetComponent<Fireball>();
             if (fireball != null)
             {
-                fireball.Init(damage, faceDir);
+                fireball.Init(config.damage, faceDir);
             }
         }       
     }

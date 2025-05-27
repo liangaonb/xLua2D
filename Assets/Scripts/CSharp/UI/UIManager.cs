@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
         Player player = PlayerManager.Instance.player;
         for (int i = 0; i < skillIcons.Length; i++)
         {
-            BaseSkill skill = SkillManager.Instance.GetSkill(player.CharacterID, i);
+            BaseSkill skill = SkillManager.Instance.GetSkill(player.CharacterID, i + 1); // 跳过NormalAttack
             if (skill != null)
             {
                 skillIcons[i].SetSkill(skill);
