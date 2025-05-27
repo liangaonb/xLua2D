@@ -1,3 +1,11 @@
+public enum PlayerStates 
+{
+    Walk,
+    Run,
+    Combat,
+    Dead 
+}
+
 public enum EnemyStates
 {
     Move,

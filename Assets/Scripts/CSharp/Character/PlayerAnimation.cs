@@ -19,7 +19,14 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetFloat("velocityX", math.abs(_rb.velocity.x));
+        float speed = math.abs(_rb.velocity.x);
+        _animator.SetFloat("velocityX", speed);
+        
+        if (speed > 0)
+        {
+            bool isRunning = GameStateManager.Instance.currentGameState == GameState.Playing;
+            _animator.SetBool("isRunning", isRunning);
+        }
     }
     
     public void PlayHurtAnim()
@@ -30,7 +37,7 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayAttackAnim()
     {
         _animator.SetTrigger("attack");
-        _rb.velocity = new Vector2(0, _rb.velocity.y); // 停止水平移动
+        _rb.velocity = new Vector2(0, _rb.velocity.y); // 攻击时停止移动
     }
 
     public void AttackAnimationEnd()

@@ -6,9 +6,9 @@ using UnityEngine;
 public class Enemy : BaseCharacter
 {
     public int faceDir;
-    private BaseState currentState;
-    private BaseState moveState = new EnemyMoveState();
-    private BaseState combatState = new EnemyCombatState();
+    private BaseState<Enemy> currentState;
+    private readonly BaseState<Enemy> moveState = new EnemyMoveState();
+    private readonly BaseState<Enemy> combatState = new EnemyCombatState();
 
     private void OnEnable()
     {

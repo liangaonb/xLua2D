@@ -87,6 +87,13 @@ public class WaveManager : MonoBehaviour
     {
         _remainingEnemies--;
         waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies);
+
+        // 当波次中的所有敌人都被击败时
+        if (_remainingEnemies <= 0)
+        {
+            // 通知玩家退出战斗状态
+            PlayerManager.Instance.player.GetComponent<PlayerController>().ExitCombat();
+        }
     }
 
     public WaveConfig GetCurrentWave()

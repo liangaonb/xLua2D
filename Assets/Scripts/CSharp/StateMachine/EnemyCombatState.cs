@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCombatState : BaseState
+public class EnemyCombatState : BaseState<Enemy>
 {
     public override void EnterState(Enemy enemy)
     {
-        currentEnemy = enemy;
-        currentEnemy.isInCombat = true;
-        Debug.Log($"{currentEnemy.name} enter CombatState");
+        currentCharacter = enemy;
+        currentCharacter.isInCombat = true;
+        Debug.Log($"{currentCharacter.name} enter CombatState");
     }
 
     public override void LogicUpdate()
     {
-        if (!currentEnemy.checkCondition.CheckTarget())
+        if (!currentCharacter.checkCondition.CheckTarget())
         {
-            currentEnemy.ChangeState(EnemyStates.Move);
+            currentCharacter.ChangeState(EnemyStates.Move);
         }
     }
 
@@ -26,7 +26,7 @@ public class EnemyCombatState : BaseState
 
     public override void ExitState()
     {
-        currentEnemy.isInCombat = false;
-        Debug.Log($"{currentEnemy.name} exit CombatState");
+        currentCharacter.isInCombat = false;
+        Debug.Log($"{currentCharacter.name} exit CombatState");
     }
 }
