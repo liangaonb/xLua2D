@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerInputControl _inputControl;
+    public PlayerInputControl inputControl;
     public float walkSpeed = 100f;
     public float runSpeed = 200f;
     public float moveSpeed; // 当前速度
@@ -25,21 +22,19 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _inputControl = new PlayerInputControl();
+        inputControl = new PlayerInputControl();
         _rb = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         checkCondition = GetComponent<CheckCondition>();
 
-        _inputControl.Gameplay.Skill0.started += PlayerAttack;
-        _inputControl.Gameplay.Skill1.started += PlayerSkill1;
-        _inputControl.Gameplay.Skill2.started += PlayerSkill2;
+        inputControl.Gameplay.Skill0.started += PlayerAttack;
+        inputControl.Gameplay.Skill1.started += PlayerSkill1;
+        inputControl.Gameplay.Skill2.started += PlayerSkill2;
+        
+        inputControl.Gameplay.Enable();
+        inputControl.UI.Enable();
     }
-
-    private void OnEnable()
-    {
-        _inputControl.Gameplay.Enable();
-    }
-
+    
     private void Start()
     {
         // 初始状态为walk
@@ -100,7 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         isDead = true;
         _playerAnimation.PlayDeathAnim();
-        _inputControl.Gameplay.Disable();
+        inputControl.Gameplay.Disable();
     }
 
     private void PlayerAttack(InputAction.CallbackContext context)
@@ -109,6 +104,8 @@ public class PlayerController : MonoBehaviour
             return;
         isAttacking = true;
         _playerAnimation.PlayAttackAnim();
+        
+        Debug.Log("PlayerController:PlayerAttack");
     }
 
     

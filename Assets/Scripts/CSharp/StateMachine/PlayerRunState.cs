@@ -28,6 +28,6 @@ public class PlayerRunState : BaseState<PlayerController>
 
     public override void ExitState()
     {
-        Debug.Log("Exit Run State");
+        //Debug.Log("Exit Run State");
     }
 }

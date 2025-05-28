@@ -26,6 +26,6 @@ public class PlayerWalkState : BaseState<PlayerController>
 
     public override void ExitState()
     {
-        Debug.Log("Exit Walk State");
+        //Debug.Log("Exit Walk State");
     }
 }

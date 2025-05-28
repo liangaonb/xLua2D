@@ -23,7 +23,7 @@ public class CheckCondition : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(checkPos, checkSize, 0f, targetLayer);
         if (hit)
         {
-            Debug.Log($"{gameObject.name} 检测到目标对象: " + hit.gameObject.name);
+            //Debug.Log($"{gameObject.name} 检测到目标对象: " + hit.gameObject.name);
             return true;
         }
         return false;

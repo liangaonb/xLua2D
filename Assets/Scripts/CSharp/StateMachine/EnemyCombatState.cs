@@ -8,7 +8,7 @@ public class EnemyCombatState : BaseState<Enemy>
     {
         currentCharacter = enemy;
         currentCharacter.isInCombat = true;
-        Debug.Log($"{currentCharacter.name} enter CombatState");
+        //Debug.Log($"{currentCharacter.name} enter CombatState");
     }
 
     public override void LogicUpdate()
@@ -27,6 +27,6 @@ public class EnemyCombatState : BaseState<Enemy>
     public override void ExitState()
     {
         currentCharacter.isInCombat = false;
-        Debug.Log($"{currentCharacter.name} exit CombatState");
+        //Debug.Log($"{currentCharacter.name} exit CombatState");
     }
 }

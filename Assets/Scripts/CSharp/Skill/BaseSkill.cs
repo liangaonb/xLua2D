@@ -4,6 +4,8 @@ using UnityEngine;
 public abstract class BaseSkill : MonoBehaviour
 {
     public BaseSkillConfigSO config;
+    public SkillUnlockConfigSO unlockConfig;
+    protected int skillIndex;
 
     protected bool isInCooldown = false;
     protected float cooldownTimer = 0f;
@@ -29,7 +31,12 @@ public abstract class BaseSkill : MonoBehaviour
 
     public virtual bool CanUseSkill()
     {
-        return !isInCooldown;
+        if (!isInCooldown && unlockConfig != null)
+        {
+            // 检查是否已解锁
+            return unlockConfig.skillUnlockData[skillIndex].isUnlocked;
+        }
+        return false;
     }
 
     public virtual void UseSkill()

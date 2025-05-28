@@ -6,6 +6,13 @@ using UnityEngine.Events;
 
 public class Player : BaseCharacter, ISkillUser
 {
+    [Header("等级系统")]
+    public int level = 1;
+    public float currentExp;
+    public float expToNextLevel = 100;
+    public UnityEvent<Player> OnLevelUp;
+    public UnityEvent<Player> OnExpGained;
+    
     [Header("技能预制体")] 
     public NormalAttackSkill normalAttackSkillPrefab;
     public FireballSkill fireballSkillPrefab;
@@ -56,7 +63,7 @@ public class Player : BaseCharacter, ISkillUser
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        Debug.Log($"{gameObject.name} takes {damage} damage ");
+        //Debug.Log($"{gameObject.name} takes {damage} damage ");
 
         if (currentHealth <= 0)
         {
@@ -92,9 +99,30 @@ public class Player : BaseCharacter, ISkillUser
         return false;
     }
     
+    public void GainExp(float amount)
+    {
+        currentExp += amount;
+        OnExpGained?.Invoke(this);
+        
+        while (currentExp >= expToNextLevel)
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        currentExp -= expToNextLevel;
+        level++;
+        expToNextLevel *= 1f; // 每级所需经验提高
+        OnLevelUp?.Invoke(this);
+    }
+    
     public void NormalAttack()
     {
         SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
+        
+        Debug.Log("Player:NormalAttack");
     }
 
     public void UseFireballSkill()

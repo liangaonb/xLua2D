@@ -29,6 +29,6 @@ public class PlayerCombatState : BaseState<PlayerController>
     public override void ExitState()
     {
         currentCharacter.isInCombat = false;
-        Debug.Log("Exit Combat State");
+        //Debug.Log("Exit Combat State");
     }
 }

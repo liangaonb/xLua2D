@@ -325,6 +325,15 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleUIPanel"",
+                    ""type"": ""Button"",
+                    ""id"": ""52453e05-9b61-4455-9d15-f8ae7ffb4a4e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -745,6 +754,17 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86e7a1b1-d1ff-4446-a5b7-4f0ec6d4996c"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleUIPanel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -830,6 +850,7 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_ToggleUIPanel = m_UI.FindAction("ToggleUIPanel", throwIfNotFound: true);
     }
 
     ~@PlayerInputControl()
@@ -977,6 +998,7 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_ToggleUIPanel;
     public struct UIActions
     {
         private @PlayerInputControl m_Wrapper;
@@ -991,6 +1013,7 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @ToggleUIPanel => m_Wrapper.m_UI_ToggleUIPanel;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1030,6 +1053,9 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @ToggleUIPanel.started += instance.OnToggleUIPanel;
+            @ToggleUIPanel.performed += instance.OnToggleUIPanel;
+            @ToggleUIPanel.canceled += instance.OnToggleUIPanel;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1064,6 +1090,9 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @ToggleUIPanel.started -= instance.OnToggleUIPanel;
+            @ToggleUIPanel.performed -= instance.OnToggleUIPanel;
+            @ToggleUIPanel.canceled -= instance.OnToggleUIPanel;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1145,5 +1174,6 @@ public partial class @PlayerInputControl: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnToggleUIPanel(InputAction.CallbackContext context);
     }
 }

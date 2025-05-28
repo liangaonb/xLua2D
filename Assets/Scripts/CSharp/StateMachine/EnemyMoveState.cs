@@ -8,7 +8,7 @@ public class EnemyMoveState : BaseState<Enemy>
     {
         currentCharacter = enemy;
         currentCharacter.isInCombat = false;
-        Debug.Log($"{currentCharacter.name} enter MoveState");
+        //Debug.Log($"{currentCharacter.name} enter MoveState");
     }
 
     public override void LogicUpdate()
@@ -29,6 +29,6 @@ public class EnemyMoveState : BaseState<Enemy>
 
     public override void ExitState()
     {
-        Debug.Log($"{currentCharacter.name} exit MoveState");
+        //Debug.Log($"{currentCharacter.name} exit MoveState");
     }
 }

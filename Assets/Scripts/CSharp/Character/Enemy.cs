@@ -6,9 +6,10 @@ using UnityEngine;
 public class Enemy : BaseCharacter
 {
     public int faceDir;
+    public float expValue = 50f;
     private BaseState<Enemy> currentState;
-    private readonly BaseState<Enemy> moveState = new EnemyMoveState();
-    private readonly BaseState<Enemy> combatState = new EnemyCombatState();
+    private BaseState<Enemy> moveState = new EnemyMoveState();
+    private BaseState<Enemy> combatState = new EnemyCombatState();
 
     private void OnEnable()
     {
@@ -43,12 +44,10 @@ public class Enemy : BaseCharacter
         // 获取玩家位置
         Vector2 playerPos = PlayerManager.Instance.player.transform.position;
         Vector2 enemyPos = transform.position;
-    
-        // 计算方向
+        
         float directionToPlayer = playerPos.x - enemyPos.x;
         faceDir = (directionToPlayer > 0) ? 1 : -1;
-    
-        // 移动
+        
         rb.velocity = new Vector2(moveSpeed * faceDir * Time.deltaTime, rb.velocity.y);
     }
     
@@ -59,7 +58,7 @@ public class Enemy : BaseCharacter
         {
             Die();
         }
-        Debug.Log($"{this.gameObject.name} takes {damage} damage ");
+        //Debug.Log($"{this.gameObject.name} takes {damage} damage ");
 
         onTakenDamage.Invoke();
     }
@@ -98,6 +97,8 @@ public class Enemy : BaseCharacter
     {
         base.Die();
         Debug.Log($"{gameObject.name} died.");
+        
+        PlayerManager.Instance.player.GainExp(expValue);
         WaveManager.Instance.OnEnemyDefeated();
         onDied.Invoke(); //返还到对象池
     }
