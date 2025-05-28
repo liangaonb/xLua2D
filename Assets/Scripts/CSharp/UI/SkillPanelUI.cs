@@ -27,6 +27,19 @@ public class SkillPanelUI : MonoBehaviour
         skillTreePanel.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        if (_playerController != null && _playerController.inputControl != null)
+        {
+            _playerController.inputControl.UI.ToggleUIPanel.started -= OnToggleSkillPanelUI;
+        }
+        
+        if (PlayerManager.Instance != null && PlayerManager.Instance.player != null)
+        {
+            PlayerManager.Instance.player.OnLevelUp.RemoveListener(OnPlayerLevelUp);
+        }
+    }
+
     private void InitRuntimeUnlockInfo()
     {
         foreach (var skillData in skillUnlockConfig.skillUnlockData)
@@ -52,6 +65,8 @@ public class SkillPanelUI : MonoBehaviour
 
     private void ToggleSkillTree()
     {
+        if (skillTreePanel == null) return;
+
         bool isActive = !skillTreePanel.activeSelf;
         skillTreePanel.SetActive(isActive);
         Time.timeScale = isActive ? 0 : 1;

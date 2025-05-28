@@ -57,6 +57,15 @@ public class PlayerController : MonoBehaviour
         _currentState.PhysicsUpdate();
     }
 
+    private void OnDisable()
+    {
+        inputControl.Gameplay.Skill0.started -= PlayerAttack;
+        inputControl.Gameplay.Skill1.started -= PlayerSkill1;
+        inputControl.Gameplay.Skill2.started -= PlayerSkill2;
+        inputControl.Gameplay.Disable();
+        inputControl.UI.Disable();
+    }
+
     public void AutoMove()
     {
         if (isAttacking) return;

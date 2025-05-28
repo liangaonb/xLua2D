@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public PlayerStatBar playerStatBar;
-    
+
     [Header("监听事件")]
     public PlayerEventSO healthEvent;
     public PlayerEventSO energyEvent;
@@ -14,10 +12,15 @@ public class UIManager : MonoBehaviour
     [Header("技能UI")]
     public SkillIconUI[] skillIcons;
 
+    [Header("等级UI")]
+    public TextMeshProUGUI levelText;
+
     private void OnEnable()
     {
         healthEvent.OnEventRaised += OnHealthEvent;
         energyEvent.OnEventRaised += OnEnergyEvent;
+
+        PlayerManager.Instance.player.OnLevelUp.AddListener(OnPlayerLevelUp);
     }
 
     private void Start()
@@ -31,12 +34,16 @@ public class UIManager : MonoBehaviour
                 skillIcons[i].SetSkill(skill);
             }
         }
+
+        UpdateLevelDisplay(player);
     }
 
     private void OnDisable()
     {
         healthEvent.OnEventRaised -= OnHealthEvent;
         energyEvent.OnEventRaised -= OnEnergyEvent;
+
+        PlayerManager.Instance.player.OnLevelUp.RemoveListener(OnPlayerLevelUp);
     }
 
     private void OnHealthEvent(Player player)
@@ -44,10 +51,20 @@ public class UIManager : MonoBehaviour
         float percentage = player.currentHealth / player.maxHealth;
         playerStatBar.SetHealthPercentage(percentage);
     }
-    
+
     private void OnEnergyEvent(Player player)
     {
         float percentage = player.currentEnergy / player.maxEnergy;
         playerStatBar.SetEnergyPercentage(percentage);
+    }
+    
+    private void OnPlayerLevelUp(Player player)
+    {
+        UpdateLevelDisplay(player);
+    }
+
+    private void UpdateLevelDisplay(Player player)
+    {
+        levelText.text = $"Level: {player.level}";
     }
 }
