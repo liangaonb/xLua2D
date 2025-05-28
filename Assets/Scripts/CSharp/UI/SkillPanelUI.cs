@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,14 +11,38 @@ public class SkillPanelUI : MonoBehaviour
     public Transform skillTreeContent; // 存放skillNode元素
     public GameObject skillTreePanel;
     private PlayerController _playerController;
+    private Dictionary<string, bool> _runtimeSkillUnlockInfo = new Dictionary<string, bool>(); //存储初始解锁状态
     
     private void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
         _playerController.inputControl.UI.ToggleUIPanel.started += OnToggleSkillPanelUI;
+
+        InitRuntimeUnlockInfo();
+        
+        // 订阅玩家升级事件
+        PlayerManager.Instance.player.OnLevelUp.AddListener(OnPlayerLevelUp);
         
         InitializeSkillTree();
         skillTreePanel.SetActive(false);
+    }
+
+    private void InitRuntimeUnlockInfo()
+    {
+        foreach (var skillData in skillUnlockConfig.skillUnlockData)
+        {
+            _runtimeSkillUnlockInfo[skillData.skillName] = skillData.isUnlocked;
+        }
+    }
+
+    public bool IsSkillUnlocked(string skillName)
+    {
+        return _runtimeSkillUnlockInfo[skillName];
+    }
+
+    private void OnPlayerLevelUp(Player player)
+    {
+        UpdateAllSkillNodes();
     }
 
     private void OnToggleSkillPanelUI(InputAction.CallbackContext obj)
@@ -34,7 +59,7 @@ public class SkillPanelUI : MonoBehaviour
 
     private void InitializeSkillTree()
     {
-        // 遍历现有的技能节点
+        // 遍历panel中的技能节点并写入SO中的数据
         for (int i = 0; i < skillTreeContent.childCount; i++)
         {
             GameObject node = skillTreeContent.GetChild(i).gameObject;
@@ -72,15 +97,16 @@ public class SkillPanelUI : MonoBehaviour
     private void TryUnlockSkill(SkillUnlockConfigSO.SkillUnlockData skillData)
     {
         Player player = PlayerManager.Instance.player;
-        if (!skillData.isUnlocked && player.level >= skillData.requiredLevel)
+        if (!_runtimeSkillUnlockInfo[skillData.skillName] && player.level >= skillData.requiredLevel)
         {
-            skillData.isUnlocked = true;
+            _runtimeSkillUnlockInfo[skillData.skillName] = true;
+            
             // 更新UI显示
-            UpdateSkillNodes();
+            UpdateAllSkillNodes();
         }
     }
 
-    private void UpdateSkillNodes()
+    private void UpdateAllSkillNodes()
     {
         // 更新所有技能节点的显示状态
         for (int i = 0; i < skillTreeContent.childCount; i++)
@@ -96,7 +122,8 @@ public class SkillPanelUI : MonoBehaviour
         Button unlockButton = node.transform.Find("UnlockButton").GetComponent<Button>();
         Image lockIcon = node.transform.Find("LockIcon").GetComponent<Image>();
         
-        if (skillUnlockData.isUnlocked)
+        bool isUnlocked = _runtimeSkillUnlockInfo[skillUnlockData.skillName];
+        if (isUnlocked)
         {
             unlockButton.gameObject.SetActive(false);
             lockIcon.gameObject.SetActive(false);
@@ -106,7 +133,6 @@ public class SkillPanelUI : MonoBehaviour
             unlockButton.gameObject.SetActive(true);
             lockIcon.gameObject.SetActive(true);
             
-            // 检查是否达到等级要求
             Player player = PlayerManager.Instance.player;
             unlockButton.interactable = player.level >= skillUnlockData.requiredLevel;
         }

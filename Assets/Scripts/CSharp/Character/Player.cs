@@ -49,14 +49,17 @@ public class Player : BaseCharacter, ISkillUser
     {
         var normalAttack = Instantiate(normalAttackSkillPrefab);
         normalAttack.Initialize(this);
+        normalAttack.skillIndex = 0;
         SkillManager.Instance.AddSkill(CharacterID, normalAttack);
         
         var fireballSkill = Instantiate(fireballSkillPrefab);
         fireballSkill.Initialize(this);
+        fireballSkill.skillIndex = 1;
         SkillManager.Instance.AddSkill(CharacterID, fireballSkill);
         
         var recoverySkill = Instantiate(recoverySkillPrefab);
         recoverySkill.Initialize(this);
+        recoverySkill.skillIndex = 2;
         SkillManager.Instance.AddSkill(CharacterID, recoverySkill);
     }
 
@@ -107,6 +110,7 @@ public class Player : BaseCharacter, ISkillUser
         while (currentExp >= expToNextLevel)
         {
             LevelUp();
+            OnLevelUp.Invoke(this);
         }
     }
 

@@ -7,6 +7,7 @@ public class Enemy : BaseCharacter
 {
     public int faceDir;
     public float expValue = 50f;
+    private Player _player;
     private BaseState<Enemy> currentState;
     private BaseState<Enemy> moveState = new EnemyMoveState();
     private BaseState<Enemy> combatState = new EnemyCombatState();
@@ -21,6 +22,11 @@ public class Enemy : BaseCharacter
         {
             EnemyHealthBarManager.Instance.CreateHealthBar(this);
         }
+    }
+
+    private void Start()
+    {
+        _player = PlayerManager.Instance.player;
     }
 
     private void Update()
@@ -97,8 +103,8 @@ public class Enemy : BaseCharacter
     {
         base.Die();
         Debug.Log($"{gameObject.name} died.");
+        _player.GainExp(expValue);
         
-        PlayerManager.Instance.player.GainExp(expValue);
         WaveManager.Instance.OnEnemyDefeated();
         onDied.Invoke(); //返还到对象池
     }

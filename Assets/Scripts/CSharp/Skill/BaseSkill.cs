@@ -5,7 +5,7 @@ public abstract class BaseSkill : MonoBehaviour
 {
     public BaseSkillConfigSO config;
     public SkillUnlockConfigSO unlockConfig;
-    protected int skillIndex;
+    public int skillIndex;
 
     protected bool isInCooldown = false;
     protected float cooldownTimer = 0f;
@@ -33,8 +33,12 @@ public abstract class BaseSkill : MonoBehaviour
     {
         if (!isInCooldown && unlockConfig != null)
         {
-            // 检查是否已解锁
-            return unlockConfig.skillUnlockData[skillIndex].isUnlocked;
+            // 使用SkillPanelUI中的解锁信息
+            var skillPanel = FindObjectOfType<SkillPanelUI>();
+            if (skillPanel != null)
+            {
+                return skillPanel.IsSkillUnlocked(unlockConfig.skillUnlockData[skillIndex].skillName);
+            }
         }
         return false;
     }
