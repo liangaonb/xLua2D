@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
         _inputControl.Gameplay.Skill0.started += PlayerAttack;
         _inputControl.Gameplay.Skill1.started += PlayerSkill1;
         _inputControl.Gameplay.Skill2.started += PlayerSkill2;
-        
     }
 
     private void OnEnable()
@@ -87,7 +86,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 当所有敌人被击败后退出战斗状态
+    // 退出战斗状态
     public void ExitCombat()
     {
         if (_currentState == _combatState)
@@ -106,7 +105,8 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerAttack(InputAction.CallbackContext context)
     {
-        if (isAttacking) return;
+        if (isAttacking || _currentState != _combatState) 
+            return;
         isAttacking = true;
         _playerAnimation.PlayAttackAnim();
     }
@@ -114,11 +114,15 @@ public class PlayerController : MonoBehaviour
     
     private void PlayerSkill1(InputAction.CallbackContext context)
     {
+        if (_currentState != _combatState)
+            return;
         PlayerManager.Instance.player.UseFireballSkill();
     }
 
     private void PlayerSkill2(InputAction.CallbackContext context)
     {
+        if (_currentState != _combatState)
+            return;
         PlayerManager.Instance.player.UseRecoverySkill();
     }
 }

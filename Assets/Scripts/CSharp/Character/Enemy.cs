@@ -51,13 +51,7 @@ public class Enemy : BaseCharacter
         // 移动
         rb.velocity = new Vector2(moveSpeed * faceDir * Time.deltaTime, rb.velocity.y);
     }
-
-    // public override void PlayAttackAnim()
-    // {
-    //     animator.SetBool("isInCombat", true);
-    //     isAttack = true;
-    // }
-
+    
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);

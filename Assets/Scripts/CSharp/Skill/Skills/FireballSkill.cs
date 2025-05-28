@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FireballSkill : BaseSkill
 {
-    [Header("Fireball Settings")]
     public GameObject fireballPrefab; // 要生成的火球预制体
     public Vector2 spawnOffset = new Vector2(1f, 0f); // 生成位置偏移
 
@@ -24,7 +23,6 @@ public class FireballSkill : BaseSkill
             
             if (skillUser is Player player)
             {
-                // 消耗能量
                 player.currentEnergy -= config.energyCost;
                 player.OnEnergyChanged?.Invoke(player);
             }

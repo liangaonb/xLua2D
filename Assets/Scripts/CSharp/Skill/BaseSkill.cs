@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class BaseSkill : MonoBehaviour
 {
-    public SkillConfigSO config;
+    public BaseSkillConfigSO config;
 
     protected bool isInCooldown = false;
     protected float cooldownTimer = 0f;

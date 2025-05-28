@@ -846,7 +846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 587630816}
   offset: {x: 0, y: 0}
-  smoothSpeed: 0.2
 --- !u!1 &540351443
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +947,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 992890669, guid: 4224a40dbdb01ae48997a154c9125927, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1017,8 +1016,8 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
+    m_Bits: 64
+  m_LayerOverridePriority: 10
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1148,6 +1147,7 @@ MonoBehaviour:
   normalAttackSkillPrefab: {fileID: 5263174553911331388, guid: e74d8682ef174024fa2b8f355485011a, type: 3}
   fireballSkillPrefab: {fileID: 7861039561254348915, guid: 87728da7a09484843b675c464fb50f06, type: 3}
   recoverySkillPrefab: {fileID: 7721736831101892729, guid: 1c5dcb1aeebe47843a8af0a65176180d, type: 3}
+  shadowCloneSkillPrefab: {fileID: -122822104407214290, guid: 38463a2f0c812e444b6b196e6a81b444, type: 3}
   maxEnergy: 100
   currentEnergy: 0
   energyGainPerAttack: 20

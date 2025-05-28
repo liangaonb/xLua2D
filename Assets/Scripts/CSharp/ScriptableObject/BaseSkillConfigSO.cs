@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/SkillConfigSO")]
-public class SkillConfigSO : ScriptableObject
+[CreateAssetMenu(menuName = "ScriptableObjects/BaseSkillConfigSO")]
+public class BaseSkillConfigSO : ScriptableObject
 {
     [Header("技能描述")]
     public string skillName;
