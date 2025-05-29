@@ -15,7 +15,7 @@ MonoBehaviour:
   skillName: NormalAttack
   description: Attack to gain energy.
   skillIcon: {fileID: 1791551205, guid: 4224a40dbdb01ae48997a154c9125927, type: 3}
-  damage: 10
+  damage: 50
   cooldownTime: 0
   energyCost: 0
   affectLayer:

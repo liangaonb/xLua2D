@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStatBar : MonoBehaviour
 {
     public Image healthImage;
     public Image healthDelayImage;
-    public Image EnergyImage;
+    public Image energyImage;
+    public Image expImage;
 
     private void Update()
     {
@@ -25,6 +27,11 @@ public class PlayerStatBar : MonoBehaviour
 
     public void SetEnergyPercentage(float percentage)
     {
-        EnergyImage.fillAmount = percentage;
+        energyImage.fillAmount = percentage;
+    }
+
+    public void SetExpPercentage(float percentage)
+    {
+        expImage.fillAmount = percentage;
     }
 }

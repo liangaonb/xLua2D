@@ -68,6 +68,7 @@ public class WaveManager : MonoBehaviour
             if (_currentWaveIndex >= waveConfigs.Count)
             {
                 Debug.Log("All enemies died, you win!");
+                PlayerManager.Instance.player.onDied?.Invoke(); // 暂用GameOver逻辑
                 yield break;
             }
         }

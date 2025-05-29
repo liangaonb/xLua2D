@@ -24,7 +24,7 @@ public class FireballSkill : BaseSkill
             if (skillUser is Player player)
             {
                 player.currentEnergy -= config.energyCost;
-                player.OnEnergyChanged?.Invoke(player);
+                player.onEnergyChanged?.Invoke(player);
             }
 
             // 获取角色朝向

@@ -31,7 +31,7 @@ public class UIPanelsController : MonoBehaviour
         InitRuntimeUnlockInfo();
         
         // 订阅玩家升级事件，升级后更新可解锁技能
-        PlayerManager.Instance.player.OnLevelUp.AddListener(OnPlayerLevelUp);
+        PlayerManager.Instance.player.onLevelUp.AddListener(OnPlayerLevelUp);
         
         InitializeSkillTree();
 
@@ -51,7 +51,7 @@ public class UIPanelsController : MonoBehaviour
         }
         if (PlayerManager.Instance != null && PlayerManager.Instance.player != null)
         {
-            PlayerManager.Instance.player.OnLevelUp.RemoveListener(OnPlayerLevelUp);
+            PlayerManager.Instance.player.onLevelUp.RemoveListener(OnPlayerLevelUp);
         }
         if (preButton != null)
         {
@@ -126,6 +126,7 @@ public class UIPanelsController : MonoBehaviour
 
         bool isActive = !rootPanel.activeSelf;
         rootPanel.SetActive(isActive);
+        UpdatePanelVisibility();
         Time.timeScale = isActive ? 0 : 1;
     }
 

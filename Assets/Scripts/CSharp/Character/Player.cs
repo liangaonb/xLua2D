@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class Player : BaseCharacter, ISkillUser
 {
@@ -10,8 +11,6 @@ public class Player : BaseCharacter, ISkillUser
     public int level = 1;
     public float currentExp;
     public float expToNextLevel = 100;
-    public UnityEvent<Player> OnLevelUp;
-    public UnityEvent<Player> OnExpGained;
     
     [Header("技能预制体")] 
     public NormalAttackSkill normalAttackSkillPrefab;
@@ -23,8 +22,10 @@ public class Player : BaseCharacter, ISkillUser
     public float currentEnergy;
     public float energyGainPerAttack;
 
-    public UnityEvent<Player> OnHealthChanged;
-    public UnityEvent<Player> OnEnergyChanged;
+    public UnityEvent<Player> onHealthChanged;
+    public UnityEvent<Player> onEnergyChanged;
+    public UnityEvent<Player> onLevelUp;
+    public UnityEvent<Player> onExpChanged;
 
     private int _characterID;
     [HideInInspector] public int CharacterID => _characterID;
@@ -40,7 +41,7 @@ public class Player : BaseCharacter, ISkillUser
     private void Start()
     {
         currentHealth = maxHealth;
-        OnHealthChanged.Invoke(this);
+        onHealthChanged.Invoke(this);
         
         InitializeSkills();
     }
@@ -74,7 +75,7 @@ public class Player : BaseCharacter, ISkillUser
         }
 
         onTakenDamage?.Invoke();
-        OnHealthChanged?.Invoke(this);
+        onHealthChanged?.Invoke(this);
     }
 
     public override void Die()
@@ -88,7 +89,7 @@ public class Player : BaseCharacter, ISkillUser
     public void GainEnergy(float amount)
     {
         currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, maxEnergy);
-        OnEnergyChanged?.Invoke(this);
+        onEnergyChanged?.Invoke(this);
     }
 
     public bool TryUseEnergy(float amount)
@@ -96,7 +97,7 @@ public class Player : BaseCharacter, ISkillUser
         if (currentEnergy >= amount)
         {
             currentEnergy -= amount;
-            OnEnergyChanged?.Invoke(this);
+            onEnergyChanged?.Invoke(this);
             return true;
         }
         return false;
@@ -105,12 +106,12 @@ public class Player : BaseCharacter, ISkillUser
     public void GainExp(float amount)
     {
         currentExp += amount;
-        OnExpGained?.Invoke(this);
+        onExpChanged?.Invoke(this);
         
         while (currentExp >= expToNextLevel)
         {
             LevelUp();
-            OnLevelUp.Invoke(this);
+            onLevelUp.Invoke(this);
         }
     }
 
@@ -119,7 +120,7 @@ public class Player : BaseCharacter, ISkillUser
         currentExp -= expToNextLevel;
         level++;
         expToNextLevel *= 1f; // 每级所需经验提高
-        OnLevelUp?.Invoke(this);
+        onLevelUp?.Invoke(this);
     }
     
     public void NormalAttack()

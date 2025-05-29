@@ -9,8 +9,8 @@ public class Enemy : BaseCharacter
     public float expValue = 50f;
     private Player _player;
     private BaseState<Enemy> _currentState;
-    private BaseState<Enemy> _moveState = new EnemyMoveState();
-    private BaseState<Enemy> _combatState = new EnemyCombatState();
+    private EnemyMoveState _moveState = new EnemyMoveState();
+    private EnemyCombatState _combatState = new EnemyCombatState();
 
     private void OnEnable()
     {
@@ -71,7 +71,7 @@ public class Enemy : BaseCharacter
 
     public void ChangeState(EnemyStates state)
     {
-        var newState = state switch
+        BaseState<Enemy> newState = state switch
         {
             EnemyStates.Move => _moveState,
             EnemyStates.Combat => _combatState,
