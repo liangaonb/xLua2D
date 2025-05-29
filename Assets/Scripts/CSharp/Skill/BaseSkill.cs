@@ -34,7 +34,7 @@ public abstract class BaseSkill : MonoBehaviour
         if (!isInCooldown && unlockConfig != null)
         {
             // 使用SkillPanelUI中的解锁信息
-            var skillPanel = FindObjectOfType<SkillPanelUI>();
+            var skillPanel = FindObjectOfType<UIPanelsController>();
             if (skillPanel != null)
             {
                 return skillPanel.IsSkillUnlocked(unlockConfig.skillUnlockData[skillIndex].skillName);

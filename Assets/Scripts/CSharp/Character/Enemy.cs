@@ -8,14 +8,14 @@ public class Enemy : BaseCharacter
     public int faceDir;
     public float expValue = 50f;
     private Player _player;
-    private BaseState<Enemy> currentState;
-    private BaseState<Enemy> moveState = new EnemyMoveState();
-    private BaseState<Enemy> combatState = new EnemyCombatState();
+    private BaseState<Enemy> _currentState;
+    private BaseState<Enemy> _moveState = new EnemyMoveState();
+    private BaseState<Enemy> _combatState = new EnemyCombatState();
 
     private void OnEnable()
     {
-        currentState = moveState;
-        currentState.EnterState(this);
+        _currentState = _moveState;
+        _currentState.EnterState(this);
 
         // 创建血条
         if (EnemyHealthBarManager.Instance != null)
@@ -31,18 +31,18 @@ public class Enemy : BaseCharacter
 
     private void Update()
     {
-        currentState.LogicUpdate();
+        _currentState.LogicUpdate();
         animator.SetBool("isInCombat", isInCombat);
     }
 
     private void FixedUpdate()
     {
-        currentState.PhysicsUpdate();
+        _currentState.PhysicsUpdate();
     }
 
     private void OnDisable()
     {
-        currentState.ExitState();
+        _currentState.ExitState();
     }
 
     public void Move()
@@ -73,15 +73,15 @@ public class Enemy : BaseCharacter
     {
         var newState = state switch
         {
-            EnemyStates.Move => moveState,
-            EnemyStates.Combat => combatState,
+            EnemyStates.Move => _moveState,
+            EnemyStates.Combat => _combatState,
             _ => null
         };
         if (newState != null)
         {
-            currentState.ExitState();
-            currentState = newState;
-            currentState.EnterState(this);
+            _currentState.ExitState();
+            _currentState = newState;
+            _currentState.EnterState(this);
         }
     }
 

@@ -5,38 +5,95 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class SkillPanelUI : MonoBehaviour
+public class UIPanelsController : MonoBehaviour
 {
     public SkillUnlockConfigSO skillUnlockConfig;
     public Transform skillTreeContent; // 存放skillNode元素
+    public GameObject rootPanel; // 各panel的父物体
     public GameObject skillTreePanel;
     private PlayerController _playerController;
     private Dictionary<string, bool> _runtimeSkillUnlockInfo = new Dictionary<string, bool>(); //存储初始解锁状态
+
+    public GameObject storePanel;
+    public GameObject servantPanel;
+    
+    public Button preButton;
+    public Button nextButton;
+
+    private int _currentPanelIndex = 1; // 0,1,2对应storePanel,skillPanel,servantPanel
+    private GameObject[] _panels;
     
     private void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
-        _playerController.inputControl.UI.ToggleUIPanel.started += OnToggleSkillPanelUI;
+        _playerController.inputControl.UI.ToggleUIPanel.started += OnToggleRootPanelUI;
 
         InitRuntimeUnlockInfo();
         
-        // 订阅玩家升级事件
+        // 订阅玩家升级事件，升级后更新可解锁技能
         PlayerManager.Instance.player.OnLevelUp.AddListener(OnPlayerLevelUp);
         
         InitializeSkillTree();
-        skillTreePanel.SetActive(false);
+
+        _panels = new GameObject[] { storePanel, skillTreePanel, servantPanel };
+        
+        preButton.onClick.AddListener(ShowPreviousPanel);
+        nextButton.onClick.AddListener(ShowNextPanel);
+        
+        rootPanel.SetActive(false);
     }
 
     private void OnDestroy()
     {
         if (_playerController != null && _playerController.inputControl != null)
         {
-            _playerController.inputControl.UI.ToggleUIPanel.started -= OnToggleSkillPanelUI;
+            _playerController.inputControl.UI.ToggleUIPanel.started -= OnToggleRootPanelUI;
         }
-        
         if (PlayerManager.Instance != null && PlayerManager.Instance.player != null)
         {
             PlayerManager.Instance.player.OnLevelUp.RemoveListener(OnPlayerLevelUp);
+        }
+        if (preButton != null)
+        {
+            preButton.onClick.RemoveListener(ShowPreviousPanel);
+        }
+        if (nextButton != null)
+        {
+            nextButton.onClick.RemoveListener(ShowNextPanel);
+        }
+    }
+
+    private void ShowPreviousPanel()
+    {
+        _currentPanelIndex--;
+        if (_currentPanelIndex < 0)
+        {
+            _currentPanelIndex = _panels.Length - 1;
+        }
+        UpdatePanelVisibility();
+    }
+
+    private void ShowNextPanel()
+    {
+        _currentPanelIndex++;
+        if (_currentPanelIndex >= _panels.Length)
+        {
+            _currentPanelIndex = 0;
+        }
+        UpdatePanelVisibility();
+    }
+
+    private void UpdatePanelVisibility()
+    {
+        if (rootPanel.activeSelf == true)
+        {
+            for (int i = 0; i < _panels.Length; i++)
+            {
+                if (_panels[i] != null)
+                {
+                    _panels[i].SetActive(i == _currentPanelIndex);
+                }
+            }
         }
     }
 
@@ -58,17 +115,17 @@ public class SkillPanelUI : MonoBehaviour
         UpdateAllSkillNodes();
     }
 
-    private void OnToggleSkillPanelUI(InputAction.CallbackContext obj)
+    private void OnToggleRootPanelUI(InputAction.CallbackContext obj)
     {
-        ToggleSkillTree();
+        ToggleRootPanel();
     }
 
-    private void ToggleSkillTree()
+    private void ToggleRootPanel()
     {
-        if (skillTreePanel == null) return;
+        if (rootPanel == null) return;
 
-        bool isActive = !skillTreePanel.activeSelf;
-        skillTreePanel.SetActive(isActive);
+        bool isActive = !rootPanel.activeSelf;
+        rootPanel.SetActive(isActive);
         Time.timeScale = isActive ? 0 : 1;
     }
 
