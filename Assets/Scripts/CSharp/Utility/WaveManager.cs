@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -13,6 +14,7 @@ public class WaveManager : MonoBehaviour
     public float timeBetweenWaves = 3f;
     public bool isWaveActive = false;
     public WaveEventSO waveEvent;
+    public TextMeshProUGUI gameEndText;
 
     private int _currentWaveIndex = 0;
     private int _remainingEnemies = 0;
@@ -39,8 +41,8 @@ public class WaveManager : MonoBehaviour
     {
         while (_currentWaveIndex < waveConfigs.Count)
         {
-            // 第一波直接开始
-            if (_currentWaveRemainingTime > 0)
+            // 第一波直接开始,后续每波间隔timeBetweenWaves
+            if (_currentWaveIndex > 0)
             {
                 yield return new WaitForSeconds(timeBetweenWaves);
             }
@@ -50,7 +52,7 @@ public class WaveManager : MonoBehaviour
 
             _remainingEnemies = currentWave.enemyCount;
             _currentWaveRemainingTime = currentWave.waveDuration;
-            waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies);
+            waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies); // 更新Wave UI信息
 
             //生成敌人
             StartCoroutine(SpawnEnemyRoutine(currentWave));
@@ -68,6 +70,8 @@ public class WaveManager : MonoBehaviour
             if (_currentWaveIndex >= waveConfigs.Count)
             {
                 Debug.Log("All enemies died, you win!");
+                
+                gameEndText.text = "You Win!";
                 PlayerManager.Instance.player.onDied?.Invoke(); // 暂用GameOver逻辑
                 yield break;
             }

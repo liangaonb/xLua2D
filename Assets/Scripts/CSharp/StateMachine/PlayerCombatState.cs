@@ -16,7 +16,7 @@ public class PlayerCombatState : BaseState<PlayerController>
         // 检查周围是否还有敌人
         if (!currentCharacter.checkCondition.CheckTarget())
         {
-            currentCharacter.ExitCombat();  // 如果没有敌人，退出战斗状态
+            currentCharacter.ExitCombat();
         }
     }
 

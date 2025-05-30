@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
             isInCombat = true;
             ChangeState(PlayerStates.Combat);
         }
+        
         _currentState.LogicUpdate();       
     }
 

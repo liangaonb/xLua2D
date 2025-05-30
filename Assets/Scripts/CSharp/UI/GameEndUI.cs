@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameOverUI : MonoBehaviour
+public class GameEndUI : MonoBehaviour
 {
+    
+    public TextMeshProUGUI gameEndText;
     public Button restartButton;
     public Button quitButton;
     public GameObject gameplayUI;
@@ -14,6 +17,7 @@ public class GameOverUI : MonoBehaviour
         quitButton.onClick.AddListener(QuitGame);
         
         // 初始时隐藏GameOver界面
+        gameEndText.text = "Game Over";
         gameObject.SetActive(false);
         
         // 订阅玩家死亡事件
@@ -23,8 +27,8 @@ public class GameOverUI : MonoBehaviour
     private void OnPlayerDead()
     {
         // 显示GameOver
-        gameObject.SetActive(true);
         gameplayUI.SetActive(false);
+        gameObject.SetActive(true);
         
         GameStateManager.Instance.ChangeState(GameState.GameOver);
     }
