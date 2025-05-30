@@ -49,7 +49,7 @@ public class ObjectPool : MonoBehaviour
         string key = obj.name;
         obj.SetActive(false);
 
-        //重置状态
+        //重置对象状态
         Enemy returnedEnemy = obj.GetComponent<Enemy>();
         if (returnedEnemy != null)
         {

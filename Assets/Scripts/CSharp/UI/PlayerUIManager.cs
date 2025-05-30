@@ -37,6 +37,7 @@ public class PlayerUIManager : MonoBehaviour
             }
         }
 
+        // 初始等级显示
         UpdateLevelDisplay(player);
     }
 

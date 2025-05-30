@@ -1422,6 +1422,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -303
       objectReference: {fileID: 0}
+    - target: {fileID: 8837969788178043223, guid: c5c8e3016239cd448a564c8811e2008e, type: 3}
+      propertyPath: m_text
+      value: SkillName
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9651,7 +9655,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 832964891}
   waveConfigs:
   - waveNumber: 1
-    enemyCount: 1
+    enemyCount: 6
     spawnInterval: 0.5
     waveDuration: 99
     enemyTypes:
@@ -10087,6 +10091,10 @@ PrefabInstance:
     - target: {fileID: 8463312344721159826, guid: c5c8e3016239cd448a564c8811e2008e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -303
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837969788178043223, guid: c5c8e3016239cd448a564c8811e2008e, type: 3}
+      propertyPath: m_text
+      value: SkillName
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
