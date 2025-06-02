@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
         _playerAnimation.PlayAttackAnim();
         
-        Debug.Log("PlayerController:PlayerAttack");
+        //Debug.Log("PlayerController:PlayerAttack");
     }
 
     

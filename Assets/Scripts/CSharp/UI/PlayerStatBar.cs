@@ -16,7 +16,7 @@ public class PlayerStatBar : MonoBehaviour
     {
         if (healthDelayImage.fillAmount > healthImage.fillAmount)
         {
-            healthDelayImage.fillAmount -= Time.deltaTime * 0.2f;
+            healthDelayImage.fillAmount -= Time.deltaTime * 0.1f;
         }
     }
 

@@ -20,7 +20,7 @@ public class PlayerWalkState : BaseState<PlayerController>
 
     public override void PhysicsUpdate()
     {
-        // 保持低速向前移动
+        // 低速向前移动
         currentCharacter.AutoMove();
     }
 

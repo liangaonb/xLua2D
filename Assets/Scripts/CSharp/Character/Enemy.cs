@@ -105,7 +105,7 @@ public class Enemy : BaseCharacter
         _player.GainExp(expValue);
 
         // 随机掉落装备
-        if (Random.value < 0.8f)
+        if (Random.value < 0.6f)
         {
             GameObject equipmentPrefab = EquipmentDatabase.Instance.GetRandomEquipment();
             if (equipmentPrefab != null)

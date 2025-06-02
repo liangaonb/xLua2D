@@ -73,7 +73,7 @@ public class SkillManager : MonoBehaviour
     }
 
     // 清理指定角色的所有技能
-    public void ClearEntitySkills(int characterID)
+    public void ClearCharacterSkills(int characterID)
     {
         if (_characterSkills.ContainsKey(characterID))
         {

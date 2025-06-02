@@ -36,7 +36,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger("attack");
         _rb.velocity = new Vector2(0, _rb.velocity.y); // 攻击时停止移动
         
-        Debug.Log("PlayerAnimation:PlayerAttack");
+        //Debug.Log("PlayerAnimation:PlayerAttack");
     }
 
     public void AttackAnimationEnd()

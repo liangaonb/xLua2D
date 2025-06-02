@@ -26,7 +26,7 @@ public class GameEndUI : MonoBehaviour
 
     private void OnPlayerDead()
     {
-        // 显示GameOver
+        // 显示GameEnd界面
         gameplayUI.SetActive(false);
         gameObject.SetActive(true);
         

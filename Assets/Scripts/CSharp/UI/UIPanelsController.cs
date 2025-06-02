@@ -42,7 +42,6 @@ public class UIPanelsController : MonoBehaviour
         // 订阅玩家升级事件，升级后更新可解锁技能
         _player.onLevelUp.AddListener(OnPlayerLevelUp);
 
-        // 订阅拾取和装备事件
         _player.onItemPickup.AddListener(AddItemToUI);
         _player.onItemEquipped.AddListener(UpdateEquipmentUI);
 
@@ -140,15 +139,15 @@ public class UIPanelsController : MonoBehaviour
         // 设置物品图标
         slot.GetComponentInChildren<Image>().sprite = equipment.icon;
 
-        // 添加点击事件直接装备物品
+        // 点击装备物品
         Button button = slot.GetComponent<Button>();
-        button.onClick.AddListener(() => OnItemClick(equipment, button));
+        button.onClick.AddListener(() => OnItemClick(equipment));
 
         // 保存装备和按钮的对应关系
         _equipmentButtons[equipment] = button;
     }
 
-    private void OnItemClick(Equipment equipment, Button clickedButton)
+    private void OnItemClick(Equipment equipment)
     {
         if (equipment != null)
         {

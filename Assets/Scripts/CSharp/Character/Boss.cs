@@ -4,7 +4,7 @@ public class Boss : Enemy, ISkillUser
 {
     [Header("Boss技能")]
     public FireballSkill fireballSkillPrefab;
-    public float skillUseChance = 0.4f; // 使用技能的概率
+    public float skillUseChance = 0.8f; // 使用技能的概率
     
     [HideInInspector] public int CharacterID => GetInstanceID();
     [HideInInspector] public Vector3 Position => transform.position;
@@ -49,7 +49,7 @@ public class Boss : Enemy, ISkillUser
     {
         if (_skillManager != null)
         {
-            _skillManager.ClearEntitySkills(CharacterID);
+            _skillManager.ClearCharacterSkills(CharacterID);
         }
     }
 

@@ -31,6 +31,11 @@ public abstract class BaseSkill : MonoBehaviour
 
     public virtual bool CanUseSkill()
     {
+        if (skillUser is Enemy)
+        {
+            return true; // 敌人技能不受限制
+        }
+
         if (!isInCooldown && unlockConfig != null)
         {
             // 使用SkillPanelUI中的解锁信息
@@ -45,6 +50,10 @@ public abstract class BaseSkill : MonoBehaviour
 
     public virtual void UseSkill(float damageMultiplier)
     {
+        if (skillUser is Enemy)
+        {
+            return;
+        }
         isInCooldown = true;
     }
 

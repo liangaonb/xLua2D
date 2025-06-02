@@ -11,7 +11,7 @@ public class WaveManager : MonoBehaviour
     public static WaveManager Instance;
     public EnemySpawner enemySpawner;
     public List<WaveConfig> waveConfigs;
-    public float timeBetweenWaves = 3f;
+    public float timeBetweenWaves = 2f;
     public bool isWaveActive = false;
     public WaveEventSO waveEvent;
     public TextMeshProUGUI gameEndText;
@@ -84,7 +84,7 @@ public class WaveManager : MonoBehaviour
         if (_currentWaveIndex == waveConfigs.Count - 1)
         {
             enemySpawner.SpawnEnemy("Boss");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         for (int i = 0; i < currentWave.enemyCount; ++i)

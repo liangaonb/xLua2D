@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public interface ISkillUser
 {
     int CharacterID { get; }

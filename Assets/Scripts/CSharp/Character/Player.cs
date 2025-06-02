@@ -102,6 +102,7 @@ public class Player : BaseCharacter, ISkillUser
         {
             // 移除属性加成
             maxHealth -= equipment.healthBonus;
+            currentHealth = Mathf.Clamp(currentHealth - equipment.healthBonus, 0, maxHealth);
             onHealthChanged?.Invoke(this);
             damageMultiplier -= equipment.damageMultiplierBonus;
             
