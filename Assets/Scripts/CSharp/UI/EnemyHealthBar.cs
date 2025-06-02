@@ -36,6 +36,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         _target = target;
         UpdateHealthBar();
+        
         _target.onTakenDamage.AddListener(UpdateHealthBar);
         _target.onDied.AddListener(OnTargetDied);
     }

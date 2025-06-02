@@ -9927,7 +9927,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 832964891}
   waveConfigs:
   - waveNumber: 1
-    enemyCount: 2
+    enemyCount: 3
     spawnInterval: 0.5
     waveDuration: 99
     enemyTypes:
@@ -9939,7 +9939,7 @@ MonoBehaviour:
     enemyTypes:
     - EnemyBee
   - waveNumber: 3
-    enemyCount: 4
+    enemyCount: 3
     spawnInterval: 0.5
     waveDuration: 99
     enemyTypes:
