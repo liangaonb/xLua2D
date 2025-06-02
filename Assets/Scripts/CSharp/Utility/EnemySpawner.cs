@@ -23,11 +23,18 @@ public class EnemySpawner : MonoBehaviour
         GameObject prefab = enemyPrefabs.Find(x => x.name == enemyType);
         if (prefab == null)
         {
+            Debug.LogWarning($"未找到名为 {enemyType} 的敌人预制体");
             return;
         }
-        
+
         // 在指定位置生成从对象池获取的敌人
-        if (enemyType == "EnemyBee")
+        if (enemyType == "Boss")
+        {
+            _spawnPoint = _player.transform.position + Vector3.right * 20 + Vector3.up;
+
+            WaveManager.Instance.AddEnemyToCurrentWave();
+        }
+        else if (enemyType == "EnemyBee")
         {
             _spawnPoint = _player.transform.position + Vector3.right * 20 + Vector3.up * 2f;
         }
@@ -35,9 +42,10 @@ public class EnemySpawner : MonoBehaviour
         {
             _spawnPoint = _player.transform.position + Vector3.right * 20 + Vector3.up;
         }
+
         GameObject enemy = _objectPool.GetObject(prefab);
         enemy.transform.position = _spawnPoint;
-        
+
         // 死亡后归还给对象池
         Enemy enemyComponent = enemy.GetComponent<Enemy>();
         enemyComponent.onDied.AddListener(() => _objectPool.ReturnObject(enemy));

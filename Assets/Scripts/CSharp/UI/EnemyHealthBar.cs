@@ -13,6 +13,25 @@ public class EnemyHealthBar : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
+    private void LateUpdate()
+    {
+        if (_target != null)
+        {
+            // 跟随目标
+            Vector3 worldPosition = _target.transform.position + offset;
+            transform.position = _mainCamera.WorldToScreenPoint(worldPosition);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_target != null)
+        {
+            _target.onTakenDamage.RemoveListener(UpdateHealthBar);
+            _target.onDied.RemoveListener(OnTargetDied);
+        }
+    }
+
     public void SetupHealthBar(Enemy target)
     {
         _target = target;
@@ -20,17 +39,7 @@ public class EnemyHealthBar : MonoBehaviour
         _target.onTakenDamage.AddListener(UpdateHealthBar);
         _target.onDied.AddListener(OnTargetDied);
     }
-
-    private void LateUpdate()
-    {
-        if (_target != null)
-        {
-            // 更新位置以跟随目标
-            Vector3 worldPosition = _target.transform.position + offset;
-            transform.position = _mainCamera.WorldToScreenPoint(worldPosition);
-        }
-    }
-
+    
     private void UpdateHealthBar()
     {
         if (_target != null)
@@ -43,14 +52,5 @@ public class EnemyHealthBar : MonoBehaviour
     private void OnTargetDied()
     {
         Destroy(gameObject);
-    }
-
-    private void OnDestroy()
-    {
-        if (_target != null)
-        {
-            _target.onTakenDamage.RemoveListener(UpdateHealthBar);
-            _target.onDied.RemoveListener(OnTargetDied);
-        }
     }
 }

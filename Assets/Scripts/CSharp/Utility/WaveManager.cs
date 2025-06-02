@@ -70,7 +70,7 @@ public class WaveManager : MonoBehaviour
             if (_currentWaveIndex >= waveConfigs.Count)
             {
                 Debug.Log("All enemies died, you win!");
-                
+
                 gameEndText.text = "You Win!";
                 PlayerManager.Instance.player.onDied?.Invoke(); // 暂用GameOver逻辑
                 yield break;
@@ -80,6 +80,13 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator SpawnEnemyRoutine(WaveConfig currentWave)
     {
+        // 最后一波生成Boss
+        if (_currentWaveIndex == waveConfigs.Count - 1)
+        {
+            enemySpawner.SpawnEnemy("Boss");
+            yield return new WaitForSeconds(1f);
+        }
+
         for (int i = 0; i < currentWave.enemyCount; ++i)
         {
             string enemyType = currentWave.enemyTypes[Random.Range(0, currentWave.enemyTypes.Count)];
@@ -93,10 +100,9 @@ public class WaveManager : MonoBehaviour
         _remainingEnemies--;
         waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies);
 
-        // 当波次中的所有敌人都被击败时
+        // 波次中的所有敌人都被击败，通知玩家退出战斗状态
         if (_remainingEnemies <= 0)
         {
-            // 通知玩家退出战斗状态
             PlayerManager.Instance.player.GetComponent<PlayerController>().ExitCombat();
         }
     }
@@ -110,9 +116,15 @@ public class WaveManager : MonoBehaviour
     {
         return _currentWaveRemainingTime;
     }
-    
+
     public int GetRemainingEnemies()
     {
         return _remainingEnemies;
+    }
+    
+    public void AddEnemyToCurrentWave(int count = 1)
+    {
+        _remainingEnemies += count;
+        waveEvent.RaiseEvent(_currentWaveIndex + 1, _remainingEnemies);
     }
 }

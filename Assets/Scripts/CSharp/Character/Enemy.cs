@@ -12,7 +12,7 @@ public class Enemy : BaseCharacter
     private EnemyMoveState _moveState = new EnemyMoveState();
     private EnemyCombatState _combatState = new EnemyCombatState();
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _currentState = _moveState;
         _currentState.EnterState(this);
@@ -24,28 +24,28 @@ public class Enemy : BaseCharacter
         }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _player = PlayerManager.Instance.player;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         _currentState.LogicUpdate();
         animator.SetBool("isInCombat", isInCombat);
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         _currentState.PhysicsUpdate();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         _currentState.ExitState();
     }
 
-    public void Move()
+    public virtual void Move()
     {
         // 获取玩家位置
         Vector2 playerPos = PlayerManager.Instance.player.transform.position;
@@ -85,7 +85,7 @@ public class Enemy : BaseCharacter
         }
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         attackPos = transform.position;
         

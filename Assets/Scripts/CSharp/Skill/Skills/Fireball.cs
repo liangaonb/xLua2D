@@ -7,6 +7,7 @@ public class Fireball : MonoBehaviour
     public float speed = 30f;
     public float maxDistance = 900f;
     public int maxHitCount = 3;
+    public string targetTag;
     private Vector2 _startPosition;
     private int _direction = 1; // 1为右，-1为左
     private int _currentHitCount = 0;
@@ -31,10 +32,10 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 检查碰撞对象是否是敌人并造成伤害
-        if (other.CompareTag("Enemy"))
+        // 检查碰撞对象是否是敌对方并造成伤害
+        if (other.CompareTag(targetTag))
         {
-            other.GetComponent<Enemy>().TakeDamage(damage);
+            other.GetComponent<BaseCharacter>().TakeDamage(damage);
             ++_currentHitCount;
             if (_currentHitCount >= maxHitCount)
             {

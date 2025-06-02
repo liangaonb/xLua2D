@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3598880257105397016}
   - component: {fileID: 7861039561254348915}
   m_Layer: 0
-  m_Name: FireballSkill
+  m_Name: PlayerFireballSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,5 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 7515eb58c8ec0f14e94dd34ef20b5cd6, type: 2}
   unlockConfig: {fileID: 11400000, guid: 74b58fb614baeee498ef7e9f5ef01196, type: 2}
+  skillIndex: 1
   fireballPrefab: {fileID: 1380033832135113348, guid: f72a53db0ff00ce4a98c723db2e23eda, type: 3}
   spawnOffset: {x: 0, y: 1.2}
