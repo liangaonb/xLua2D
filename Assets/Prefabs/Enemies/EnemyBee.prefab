@@ -194,9 +194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425f40e2c4184604193a55ace7f59edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  currentHealth: 20
-  attackDamage: 2
+  maxHealth: 50
+  currentHealth: 50
+  attackDamage: 3
   moveSpeed: 3
   attackSize: {x: 1, y: 2}
   attackPos: {x: 4.5, y: 1}

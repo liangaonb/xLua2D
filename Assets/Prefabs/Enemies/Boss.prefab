@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   currentHealth: 150
-  attackDamage: 15
+  attackDamage: 20
   moveSpeed: 2
   attackSize: {x: 3, y: 3}
   attackPos: {x: 0, y: 0}
@@ -215,7 +215,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   checkCondition: {fileID: 0}
   faceDir: 0
-  expValue: 50
+  expValue: 200
   fireballSkillPrefab: {fileID: 7861039561254348915, guid: bec19f71126f2e34ab844f0c285dfbbf, type: 3}
   skillUseChance: 0.3
 --- !u!114 &5208045942491426518

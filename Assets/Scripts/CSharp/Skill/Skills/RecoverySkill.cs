@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class RecoverySkill : BaseSkill
 {
-    public override void UseSkill()
+    public override void UseSkill(float damageMultiplier)
     {
         if (base.CanUseSkill())
         {
-            base.UseSkill();
+            base.UseSkill(damageMultiplier);
             if (skillUser is Player player)
             {
                 // 消耗所有能量回血，值为消耗能量的33%

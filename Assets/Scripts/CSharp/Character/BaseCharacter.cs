@@ -24,6 +24,7 @@ public class BaseCharacter : MonoBehaviour
     protected Rigidbody2D rb;
     [HideInInspector] public Animator animator;
     [HideInInspector] public CheckCondition checkCondition;
+    protected float damageMultiplier = 1f; // 伤害加成系数
 
     protected virtual void Awake()
     {

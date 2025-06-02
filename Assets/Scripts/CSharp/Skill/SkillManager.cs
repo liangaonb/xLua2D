@@ -43,7 +43,7 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public bool UseSkill(int characterID, int index, Vector3 userPosition, Vector3 userScale)
+    public bool UseSkill(int characterID, int index, Vector3 userPosition, Vector3 userScale, float damageMultiplier)
     {
         if (!_characterSkills.ContainsKey(characterID))
             return false;
@@ -56,7 +56,7 @@ public class SkillManager : MonoBehaviour
                 // 技能使用时已施法者位置为基准
                 skills[index].transform.position = userPosition;
                 skills[index].transform.localScale = userScale;
-                skills[index].UseSkill();
+                skills[index].UseSkill(damageMultiplier);
                 return true;
             }
         }

@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class NormalAttackSkill : BaseSkill
 {
-    public override void UseSkill()
+    public override void UseSkill(float damageMultiplier)
     {
         //Debug.Log("NormalAttackSkill");
         if (!CanUseSkill()) return;
         
-        base.UseSkill();
+        base.UseSkill(damageMultiplier);
 
         Vector2 attackPos = skillUser.Position;
         float offsetX = config.offsetFromPlayer.x * (skillUser.Scale.x > 0 ? 1 : -1);
@@ -21,7 +21,7 @@ public class NormalAttackSkill : BaseSkill
         {
             if (hitCollider.TryGetComponent<BaseCharacter>(out var character))
             {
-                character.TakeDamage(config.damage);
+                character.TakeDamage(config.damage * damageMultiplier);
             }
         }
         

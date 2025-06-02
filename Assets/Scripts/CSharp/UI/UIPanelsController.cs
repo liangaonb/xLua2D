@@ -21,6 +21,8 @@ public class UIPanelsController : MonoBehaviour
     public GameObject inventoryPanel;  // 背包面板
     public Transform itemContainer;    // 物品容器
     public GameObject itemSlotPrefab;  // 物品槽
+
+    private Dictionary<Equipment, Button> _equipmentButtons = new Dictionary<Equipment, Button>(); // 保存装备和按钮的对应关系
     private Player _player;
 
     public Button preButton;
@@ -138,23 +140,16 @@ public class UIPanelsController : MonoBehaviour
         // 设置物品图标
         slot.GetComponentInChildren<Image>().sprite = equipment.icon;
 
-        // 添加点击事件
+        // 添加点击事件直接装备物品
         Button button = slot.GetComponent<Button>();
-        button.onClick.AddListener(() => OnItemClick(equipment));
+        button.onClick.AddListener(() => OnItemClick(equipment, button));
 
-        // 设置物品信息提示（可选）
-        SetupTooltip(slot, equipment);
+        // 保存装备和按钮的对应关系
+        _equipmentButtons[equipment] = button;
     }
 
-    private void OnItemClick(Equipment equipment)
+    private void OnItemClick(Equipment equipment, Button clickedButton)
     {
-        // 弹出确认窗口
-        ShowEquipConfirmDialog(equipment);
-    }
-
-    private void ShowEquipConfirmDialog(Equipment equipment)
-    {
-        // TODO: 实现一个简单的确认窗口
         if (equipment != null)
         {
             _player.EquipItem(equipment);
@@ -163,18 +158,28 @@ public class UIPanelsController : MonoBehaviour
 
     private void UpdateEquipmentUI(Equipment equipment)
     {
-        // TODO: 更新已装备物品的显示
-        // 可以在背包中为已装备的物品添加特殊标记
-    }
+        // 重置所有按钮下的图标颜色
+        foreach (var btn in _equipmentButtons.Values)
+        {
+            var icon = btn.GetComponentInChildren<Image>();
+            if (icon != null)
+            {
+                icon.color = Color.white;
+            }
+        }
 
-    private void SetupTooltip(GameObject slot, Equipment equipment)
-    {
-        // TODO: 添加鼠标悬停时显示物品详细信息的功能
-        string tooltip = $"{equipment.equipmentName}\n" +
-                        $"生命值 +{equipment.healthBonus}\n" +
-                        $"攻击力 +{equipment.damageBonus}\n";
-
-        // 添加tooltip组件
+        // 获取玩家所有已装备的物品并高亮显示
+        foreach (var equippedItem in _player.equippedItems.Values)
+        {
+            if (_equipmentButtons.TryGetValue(equippedItem, out Button equippedButton))
+            {
+                var icon = equippedButton.GetComponentInChildren<Image>();
+                if (icon != null)
+                {
+                    icon.color = Color.yellow;
+                }
+            }
+        }
     }
     #endregion
 

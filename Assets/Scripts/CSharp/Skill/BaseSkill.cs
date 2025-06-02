@@ -43,7 +43,7 @@ public abstract class BaseSkill : MonoBehaviour
         return false;
     }
 
-    public virtual void UseSkill()
+    public virtual void UseSkill(float damageMultiplier)
     {
         isInCooldown = true;
     }

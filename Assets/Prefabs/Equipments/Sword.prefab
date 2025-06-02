@@ -175,4 +175,4 @@ MonoBehaviour:
   equipmentName: Sword
   icon: {fileID: 21300000, guid: cb0b41e94e8bfdf44929a981f5defbb0, type: 3}
   healthBonus: 0
-  damageBonus: 10
+  damageMultiplierBonus: 1

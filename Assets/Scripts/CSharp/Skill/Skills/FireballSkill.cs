@@ -15,11 +15,11 @@ public class FireballSkill : BaseSkill
         return base.CanUseSkill();
     }
     
-    public override void UseSkill()
+    public override void UseSkill(float damageMultiplier)
     {
         if (CanUseSkill())
         {
-            base.UseSkill();
+            base.UseSkill(damageMultiplier);
             
             if (skillUser is Player player)
             {
@@ -36,7 +36,7 @@ public class FireballSkill : BaseSkill
             Fireball fireball = fireballObj.GetComponent<Fireball>();
             if (fireball != null)
             {
-                fireball.Init(config.damage, faceDir);
+                fireball.Init(config.damage * damageMultiplier, faceDir);
             }
         }       
     }

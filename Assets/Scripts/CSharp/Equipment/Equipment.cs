@@ -14,7 +14,7 @@ public class Equipment : MonoBehaviour
     
     [Header("属性加成")]
     public float healthBonus;
-    public float damageBonus;
+    public float damageMultiplierBonus;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

@@ -77,6 +77,6 @@ public class Boss : Enemy, ISkillUser
 
     private void UseFireballSkill()
     {
-        _skillManager.UseSkill(CharacterID, 0, Position, new Vector3(faceDir, 1, 1));
+        _skillManager.UseSkill(CharacterID, 0, Position, new Vector3(faceDir, 1, 1), damageMultiplier);
     }  
 }

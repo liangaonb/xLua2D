@@ -8,8 +8,8 @@ using UnityEngine.Serialization;
 public class Player : BaseCharacter, ISkillUser
 {
     [Header("背包系统")]
-    private Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
-    private List<Equipment> inventory = new List<Equipment>();
+    [HideInInspector] public Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
+    private List<Equipment> _inventory = new List<Equipment>();
 
     [Header("等级系统")]
     public int level = 1;
@@ -72,7 +72,7 @@ public class Player : BaseCharacter, ISkillUser
 
     public void AddToInventory(Equipment equipment)
     {
-        inventory.Add(equipment);
+        _inventory.Add(equipment);
         onItemPickup?.Invoke(equipment);
     }
     
@@ -89,7 +89,9 @@ public class Player : BaseCharacter, ISkillUser
         
         // 应用属性加成
         maxHealth += equipment.healthBonus;
-        attackDamage += equipment.damageBonus;
+        currentHealth = Mathf.Clamp(currentHealth + equipment.healthBonus, 0, maxHealth);
+        onHealthChanged?.Invoke(this);
+        damageMultiplier += equipment.damageMultiplierBonus;
         
         onItemEquipped?.Invoke(equipment);
     }
@@ -100,7 +102,8 @@ public class Player : BaseCharacter, ISkillUser
         {
             // 移除属性加成
             maxHealth -= equipment.healthBonus;
-            attackDamage -= equipment.damageBonus;
+            onHealthChanged?.Invoke(this);
+            damageMultiplier -= equipment.damageMultiplierBonus;
             
             equippedItems.Remove(type);
         }
@@ -167,19 +170,19 @@ public class Player : BaseCharacter, ISkillUser
     
     public void NormalAttack()
     {
-        SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
+        SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale, damageMultiplier);
         
         //Debug.Log("Player:NormalAttack");
     }
 
     public void UseFireballSkill()
     {
-        SkillManager.Instance.UseSkill(CharacterID, 1, Position, Scale);
+        SkillManager.Instance.UseSkill(CharacterID, 1, Position, Scale, damageMultiplier);
     }
 
     public void UseRecoverySkill()
     {
-        SkillManager.Instance.UseSkill(CharacterID, 2, Position, Scale);
+        SkillManager.Instance.UseSkill(CharacterID, 2, Position, Scale, damageMultiplier);
     }
     
     // private void OnDrawGizmos()
