@@ -54,7 +54,7 @@ public class Enemy : BaseCharacter
         float directionToPlayer = playerPos.x - enemyPos.x;
         faceDir = (directionToPlayer > 0) ? 1 : -1;
         
-        rb.velocity = new Vector2(moveSpeed * faceDir * Time.deltaTime, rb.velocity.y);
+        rb.velocity = new Vector2(moveSpeed * faceDir, rb.velocity.y);
     }
     
     public override void TakeDamage(float damage)

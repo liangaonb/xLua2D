@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
         // 在指定位置生成从对象池获取的敌人
         if (enemyType == "Boss")
         {
-            _spawnPoint = _player.transform.position + Vector3.right * 20 + Vector3.up;
+            _spawnPoint = _player.transform.position + Vector3.right * 20;
 
             WaveManager.Instance.AddEnemyToCurrentWave();
         }
