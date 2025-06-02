@@ -5,7 +5,7 @@ public class NormalAttackSkill : BaseSkill
 {
     public override void UseSkill()
     {
-        Debug.Log("NormalAttackSkill");
+        //Debug.Log("NormalAttackSkill");
         if (!CanUseSkill()) return;
         
         base.UseSkill();

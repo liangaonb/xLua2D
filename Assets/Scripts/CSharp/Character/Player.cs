@@ -7,6 +7,10 @@ using UnityEngine.Serialization;
 
 public class Player : BaseCharacter, ISkillUser
 {
+    [Header("背包系统")]
+    private Dictionary<EquipmentType, Equipment> equippedItems = new Dictionary<EquipmentType, Equipment>();
+    private List<Equipment> inventory = new List<Equipment>();
+
     [Header("等级系统")]
     public int level = 1;
     public float currentExp;
@@ -26,6 +30,8 @@ public class Player : BaseCharacter, ISkillUser
     public UnityEvent<Player> onEnergyChanged;
     public UnityEvent<Player> onLevelUp;
     public UnityEvent<Player> onExpChanged;
+    public UnityEvent<Equipment> onItemPickup;
+    public UnityEvent<Equipment> onItemEquipped;
 
     private int _characterID;
     [HideInInspector] public int CharacterID => _characterID;
@@ -64,6 +70,42 @@ public class Player : BaseCharacter, ISkillUser
         SkillManager.Instance.AddSkill(CharacterID, recoverySkill);
     }
 
+    public void AddToInventory(Equipment equipment)
+    {
+        inventory.Add(equipment);
+        onItemPickup?.Invoke(equipment);
+    }
+    
+    public void EquipItem(Equipment equipment)
+    {
+        // 该类型已有物品，先卸下
+        if (equippedItems.ContainsKey(equipment.type))
+        {
+            UnequipItem(equipment.type);
+        }
+        
+        // 装备新物品
+        equippedItems[equipment.type] = equipment;
+        
+        // 应用属性加成
+        maxHealth += equipment.healthBonus;
+        attackDamage += equipment.damageBonus;
+        
+        onItemEquipped?.Invoke(equipment);
+    }
+    
+    public void UnequipItem(EquipmentType type)
+    {
+        if (equippedItems.TryGetValue(type, out Equipment equipment))
+        {
+            // 移除属性加成
+            maxHealth -= equipment.healthBonus;
+            attackDamage -= equipment.damageBonus;
+            
+            equippedItems.Remove(type);
+        }
+    }
+
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
@@ -81,7 +123,7 @@ public class Player : BaseCharacter, ISkillUser
     public override void Die()
     {
         base.Die();
-        Debug.Log($"{gameObject.name} died.");
+        //Debug.Log($"{gameObject.name} died.");
 
         onDied?.Invoke();
     }
@@ -127,7 +169,7 @@ public class Player : BaseCharacter, ISkillUser
     {
         SkillManager.Instance.UseSkill(CharacterID, 0, Position, Scale);
         
-        Debug.Log("Player:NormalAttack");
+        //Debug.Log("Player:NormalAttack");
     }
 
     public void UseFireballSkill()

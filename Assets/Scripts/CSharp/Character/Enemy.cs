@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,13 +49,13 @@ public class Enemy : BaseCharacter
         // 获取玩家位置
         Vector2 playerPos = PlayerManager.Instance.player.transform.position;
         Vector2 enemyPos = transform.position;
-        
+
         float directionToPlayer = playerPos.x - enemyPos.x;
         faceDir = (directionToPlayer > 0) ? 1 : -1;
-        
+
         rb.velocity = new Vector2(moveSpeed * faceDir, rb.velocity.y);
     }
-    
+
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
@@ -88,10 +87,10 @@ public class Enemy : BaseCharacter
     public virtual void Attack()
     {
         attackPos = transform.position;
-        
+
         attackPos.x += offsetX;
         attackPos.y += offsetY;
-        
+
         Collider2D[] hitColliders = Physics2D.OverlapBoxAll(attackPos, attackSize, 0f, targetLayer);
         foreach (var hitCollider in hitColliders)
         {
@@ -102,9 +101,20 @@ public class Enemy : BaseCharacter
     public override void Die()
     {
         base.Die();
-        Debug.Log($"{gameObject.name} died.");
+        //Debug.Log($"{gameObject.name} died.");
         _player.GainExp(expValue);
-        
+
+        // 随机掉落装备
+        if (Random.value < 0.8f)
+        {
+            GameObject equipmentPrefab = EquipmentDatabase.Instance.GetRandomEquipment();
+            if (equipmentPrefab != null)
+            {
+                Vector3 dropPosition = transform.position;
+                Instantiate(equipmentPrefab, dropPosition, Quaternion.identity);
+            }
+        }
+
         WaveManager.Instance.OnEnemyDefeated();
         onDied.Invoke(); //返还到对象池
     }
@@ -113,7 +123,7 @@ public class Enemy : BaseCharacter
     {
         currentHealth = maxHealth;
         isInCombat = false;
-        
+
         onTakenDamage.RemoveAllListeners();
         onDied.RemoveAllListeners();
     }
